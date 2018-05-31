@@ -1,0 +1,58 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Iglesia
+
+@{
+    ViewBag.Title = "Detalles iglesia";
+}
+
+<h2>Detalles iglesia</h2>
+
+<div>
+    <h4>Iglesia</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Municipio.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Municipio.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorreoContacto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorreoContacto)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IglesiaId }) |
+    @Html.ActionLink("Cancelar", "Index")
+</p>

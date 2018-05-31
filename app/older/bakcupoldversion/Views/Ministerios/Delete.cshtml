@@ -1,0 +1,40 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Ministerio
+
+@{
+    ViewBag.Title = "Eliminar ministerio";
+}
+
+<div class="page-header">
+    <h1>
+        Ministerios
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Eliminar ministerio
+
+        </small>
+    </h1>
+</div>
+
+<h3>Esta seguro que desea eliminar este ministerio?</h3>
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

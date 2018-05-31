@@ -1,0 +1,32 @@
+﻿@model ICC.Mincloud.Modelo.Entities.GruposMatricula
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+	@Html.LabelFor(model => model.MatriculaId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.MatriculaId)
+		@Html.ValidationMessageFor(model => model.MatriculaId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.GrupoId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.GrupoId)
+		@Html.ValidationMessageFor(model => model.GrupoId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Grupo, new { @class = "control-label" })
+	<div class="controls">
+		@Html.DropDownListFor(model => model.GrupoId, (IEnumerable<SelectListItem>)ViewBag.Grupo)
+		@Html.ValidationMessageFor(model => model.Grupo)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Matricula, new { @class = "control-label" })
+	<div class="controls">
+		@Html.DropDownListFor(model => model.MatriculaId, (IEnumerable<SelectListItem>)ViewBag.Matricula)
+		@Html.ValidationMessageFor(model => model.Matricula)
+	</div>
+</div>

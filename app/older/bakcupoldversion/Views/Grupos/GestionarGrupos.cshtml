@@ -1,0 +1,120 @@
+﻿
+@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@using ICC.Mincloud.Web.Models
+@model Periodo
+
+@{
+
+}
+
+
+<div class="row">
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.Nombre,"Periodo", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" ,@disabled="disabled"} })
+        </div>
+    </div>
+
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.FechaInicio,"Inicio", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "form-control",@disabled = "disabled" } })*@
+            <input disabled name="FechaInicio" id="FechaInicio" class="form-control" value="@Model.FechaInicio.ToShortDateString()" />
+        </div>
+    </div>
+</div>
+
+@Html.HiddenFor(model => model.PeriodoId)
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+
+            <div class="">
+
+                <div class="row">
+                    @(Html.Kendo().Grid<Materia>().Mobile()
+                      .Name("grdFiltros")
+                      .Columns(columns =>
+                      {
+
+                          columns.Bound(c => c.NombreNivel).Title("Nivel").Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                          columns.Bound(c => c.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Materia");
+                          columns.Bound(c => c.Descripcion).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                          columns.Bound(c => c.MateriaId).ClientTemplate(
+                                                                         "<div class='btn-group'>" +
+                                                                         "<a href='" + @Url.Action("Create", new { materiaId = "#: MateriaId#", periodoId = Model.PeriodoId }) + "' class='btn btn-success btn-sm'><i class='fa fa-calendar-check-o'></i> Agregar grupo</a>" +
+                                                                         "</div>").Width(50).Title("").Sortable(false).Filterable(false);
+                      })
+                      .ColumnMenu().Groupable(g => g.Enabled(true))
+                      .Sortable()
+                      .ClientDetailTemplateId("template")
+                      .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                      .Pageable(pageable => pageable
+                          .Refresh(true)
+                          .PageSizes(true)
+                          .ButtonCount(5))
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .PageSize(20).Group(model => model.Add(g => g.NombreNivel))
+                          .ServerOperation(true)
+
+                        .Read(read => read.Action("GetMaterias", "Grupos").Data("filterGrupos")))
+                    )
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterGrupos() {
+        return {
+            periodoId: $("#PeriodoId").val()
+        };
+    }
+    function editGrupo(a) {
+        debugger;
+        var parameters = $(a).closest("tr").data('uid');
+        var grid = $(a).closest('div[data-role="grid"]').data("kendoGrid");
+        var id = 0;
+        for (var i = 0; i < grid.dataItems().length; i++) {
+            if (grid.dataItems()[i].uid == parameters) {
+                id = grid.dataItems()[i].GrupoId;
+            }
+        }
+        window.location = "/Grupos/Edit/" + id;
+    }
+</script>
+
+
+<script id="template" type="text/kendo-tmpl">
+    Grupos
+    @(Html.Kendo().Grid<Grupo>()
+            .Name("grid_#=MateriaId#") // template expression, to be evaluated in the master context
+            .Columns(columns =>
+            {
+                //columns.Bound(c => c.GrupoId).ClientTemplate(
+                //                                                         "<div class='btn-group'>" +
+                //                                                         "<a href='" + @Url.Action("Delete", new { grupoId = "#: GrupoId#" }) + "' class='btn btn-success btn-sm'><i class='fa fa-calendar-check-o'></i> Editar</a>" +
+                //                                                         "</div>").Width(50).Title("").Sortable(false).Filterable(false);
+                columns.Bound(o => o.GrupoId).ClientTemplate("<div class='btn-group'>" +
+                                                                         "<button onclick='editGrupo(this)' class='btn btn-success btn-sm'><i class='fa fa-pencil'></i> Editar</a>" +
+                                                                         "</div>");
+                columns.Bound(o => o.Nombre);
+                columns.Bound(o => o.Horario);
+                columns.Bound(o => o.NombreTutor);
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("GetGruposByMateria", "Grupos", new { materiaId = "#=MateriaId#",periodoId = Model.PeriodoId }))
+            )
+            .Pageable()
+            .Sortable()
+            .ToClientTemplate()
+    )
+</script>

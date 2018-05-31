@@ -1,0 +1,63 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@model ICC.Mincloud.Modelo.Entities.Municipio
+@{
+    ViewBag.Title = "Municipios";
+}
+<div class="page-header">
+    <h1>
+        <i class="menu-icon fa fa-globe"></i> Municipios
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de municipios
+            @Html.ActionLink("Agregar", "Create", null, new { @class = "btn btn-primary pull-right" })
+        </small>
+
+        @*@Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+
+
+    </h1>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+
+                <small>
+                    <div class="row">
+                        @(Html.Kendo().Grid<Municipio>()
+                          .Name("grdFiltros")
+                          .Columns(columns =>
+                          {
+                              columns.Bound(c => c.MunicipioId).ClientTemplate("<div class='btn-group'>" +
+                                                                             "<a href='" + @Url.Action("Edit", new { MunicipioId = "#: MunicipioId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-pencil'></i></a>" +
+                                                                             "</div>" +
+                                                                             "<div class='btn-group'>" +
+                                                                             "<a href='" + @Url.Action("Delete", new { MunicipioId = "#: MunicipioId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-trash'></i></a>" +
+                                                                             "</div>").Width(100).Title("Acciones").Filterable(false);
+                              columns.Bound(c => c.Departamento.Nombre).Title("Departamento").Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                              columns.Bound(c => c.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                          })
+
+                          .Sortable()
+                          .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                          .ColumnMenu().Groupable(g => g.Enabled(true))
+                          .Pageable(pageable => pageable
+                              .Refresh(true)
+                              .PageSizes(true)
+                              .ButtonCount(5))
+                          .DataSource(dataSource => dataSource
+                              .Ajax()
+                              .PageSize(20)
+                              .ServerOperation(true)
+                              .Read(read => read.Action("GetMunicipios", "Municipios")))
+                        )
+                    </div>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>

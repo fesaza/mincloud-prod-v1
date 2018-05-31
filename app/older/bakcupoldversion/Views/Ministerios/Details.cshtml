@@ -1,0 +1,26 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Ministerio
+
+@{
+    ViewBag.Title = "Detalles ministerio";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Ministerio</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.MinisterioId }, new { @class = "btn btn-success" }) |
+    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+</p>

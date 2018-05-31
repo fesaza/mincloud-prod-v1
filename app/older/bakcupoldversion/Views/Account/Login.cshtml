@@ -1,0 +1,116 @@
+﻿@using ICC.Mincloud.Web.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Iniciar sesión";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@*<h2>@ViewBag.Title.</h2>*@
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="login-container">
+            <div class="center">
+                <h1>
+                    <i class="ace-icon fa fa-cloud green"></i>
+                    <span class="red">Mincloud</span>
+                    <span class="grey" id="id-text2">App</span>
+                </h1>
+                <h4 class="blue" id="id-company-text">&copy; MinCloud Company</h4>
+            </div>
+
+            <div class="space-6"></div>
+
+            <div class="position-relative">
+                <div id="login-box" class="login-box visible widget-box no-border">
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <h4 class="header blue lighter bigger">
+                                <i class="ace-icon fa fa-coffee green"></i>
+                                Ingrese su información
+                            </h4>
+
+                            <div class="space-6"></div>
+
+                            <section id="loginForm">
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    <fieldset>
+                                        @Html.AntiForgeryToken()
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @*@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })*@
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.TextBoxFor(m => m.Email, htmlAttributes: new { @class = "form-control", @placeholder = "Usuario" })
+                                                    <i class="ace-icon fa fa-user"></i>
+                                                </span>
+                                            </label>
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+                                        </div>
+                                        <div class="form-group">
+                                            @*@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })*@
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.PasswordFor(m => m.Password, htmlAttributes: new { @class = "form-control", @placeholder = "Clave" })
+                                                    <i class="ace-icon fa fa-lock"></i>
+                                                </span>
+                                            </label>
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                                        </div>
+
+
+
+                                        <div class="clearfix">
+                                            <div class="form-group">
+                                                <div class="col-md-offset-4 col-md-10 inline">
+                                                    <div class="checkbox">
+                                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                                        @Html.LabelFor(m => m.RememberMe)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" value="Ingresar" class="width-35 pull-right btn btn-sm btn-primary" />
+                                                    </div>
+                                                </div>*@
+                                            <button type="submit" class="pull-right btn btn-primary">
+                                                <i class="ace-icon fa fa-key"></i>
+                                                <span class="bigger-110">Ingresar</span>
+                                            </button>
+                                            @Html.ActionLink("Registrarse", "Registerprivate", null, new { @class = "btn btn-success" })
+                                        </div>
+                                        <p>
+                                            @*@Html.ActionLink("Register as a new user", "Register")*@
+                                        </p>
+                                        @* Enable this once you have account confirmation enabled for password reset functionality
+                                            <p>
+                                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                                            </p>*@
+                                        <p>
+                                            @Html.ActionLink("Olvidaste tu clave?", "ForgotPassword")
+                                        </p>
+                                    </fieldset>
+                                }
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>*@
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

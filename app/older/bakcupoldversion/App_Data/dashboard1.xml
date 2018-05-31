@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="Personas" />
+  <DataSources>
+    <SqlDataSource ComponentName="DataSource1">
+      <Name>PersonasSeguimientosView</Name>
+      <Connection Name="MincloudEntities" FromAppConfig="true" />
+      <Query Type="SelectQuery" Name="Personas"  >
+        <Tables>
+          <Table Name="PersonasSeguimientosView" />
+        </Tables>
+        <Columns>
+          <Column Table="PersonasSeguimientosView" Name="SeguimientosPersonaId" />
+          <Column Table="PersonasSeguimientosView" Name="EncargadoId" />
+          <Column Table="PersonasSeguimientosView" Name="Estado" />
+          <Column Table="PersonasSeguimientosView" Name="Observaciones" />
+          <Column Table="PersonasSeguimientosView" Name="SeguimientoId" />
+          <Column Table="PersonasSeguimientosView" Name="FechaSeguimiento" />
+          <Column Table="PersonasSeguimientosView" Name="Nombre" />
+          <Column Table="PersonasSeguimientosView" Name="Apellidos" />
+          <Column Table="PersonasSeguimientosView" Name="Identificacion" />
+          <Column Table="PersonasSeguimientosView" Name="FechaNacimiento" />
+          <Column Table="PersonasSeguimientosView" Name="Direccion" />
+          <Column Table="PersonasSeguimientosView" Name="Barrio" />
+          <Column Table="PersonasSeguimientosView" Name="Telefono" />
+          <Column Table="PersonasSeguimientosView" Name="Celular" />
+          <Column Table="PersonasSeguimientosView" Name="Email" />
+          <Column Table="PersonasSeguimientosView" Name="PersonaId" />
+          <Column Table="PersonasSeguimientosView" Name="OcupacionId" />
+          <Column Table="PersonasSeguimientosView" Name="Convertido" />
+          <Column Table="PersonasSeguimientosView" Name="FechaBaja" />
+          <Column Table="PersonasSeguimientosView" Name="FechaRegistro" />
+          <Column Table="PersonasSeguimientosView" Name="TipoReunionPrimeraVezId" />
+          <Column Table="PersonasSeguimientosView" Name="EnSeguimiento" />
+          <Column Table="PersonasSeguimientosView" Name="FechaIngreso" />
+          <Column Table="PersonasSeguimientosView" Name="Perfil" />
+          <Column Table="PersonasSeguimientosView" Name="Masculino" />
+          <Column Table="PersonasSeguimientosView" Name="IglesiaId" />
+          <Column Table="PersonasSeguimientosView" Name="InvitadoPor" />
+          <Column Table="PersonasSeguimientosView" Name="Clasificacion" />
+          <Column Table="PersonasSeguimientosView" Name="Bautizado" />
+          <Column Table="PersonasSeguimientosView" Name="FechaBautismo" />
+          <Column Table="PersonasSeguimientosView" Name="Seguimiento" />
+          <Column Table="PersonasSeguimientosView" Name="Dias" />
+          <Column Table="PersonasSeguimientosView" Name="Ocupación" />
+          <Column Table="PersonasSeguimientosView" Name="Nombre Completo" />
+          <Column Table="PersonasSeguimientosView" Name="Genero" />
+          <Column Table="PersonasSeguimientosView" Name="BautizadoBln" />
+		  
+        </Columns>
+		
+		
+      </Query>
+      <ConnectionOptions CloseConnection="true" CommandTimeout="0" />
+    </SqlDataSource>
+  </DataSources>
+  <Parameters>
+    <Parameter Name="Iglesia" Value="0" Description="Id de la iglesia" />
+  </Parameters>
+  <Items>
+    <Pie ComponentName="pieDashboardItem1" Name="Clasificación" DataSource="DataSource1" DataMember="Personas" PieType="Donut">
+      <DataItems>
+        <Measure DataMember="PersonaId" SummaryType="Count" UniqueName="DataItem0" />
+        <Dimension DataMember="Clasificacion" TopNMeasure="DataItem0" UniqueName="DataItem1" />
+        <Measure DataMember="Bautizado" SummaryType="Count" UniqueName="DataItem2" />
+        <Measure DataMember="EnSeguimiento" SummaryType="Count" UniqueName="DataItem3" />
+      </DataItems>
+      <Arguments>
+        <Argument UniqueName="DataItem1" />
+      </Arguments>
+      <Values>
+        <Value UniqueName="DataItem0" />
+        <Value UniqueName="DataItem2" />
+        <Value UniqueName="DataItem3" />
+      </Values>
+    </Pie>
+    <Pie ComponentName="pieDashboardItem2" Name="Perfiles" DataSource="DataSource1" DataMember="Personas" PieType="Donut">
+      <InteractivityOptions IsDrillDownEnabled="true" />
+      <DataItems>
+        <Dimension DataMember="Perfil" UniqueName="DataItem0" />
+        <Measure DataMember="PersonaId" SummaryType="Count" UniqueName="DataItem1" />
+        <Dimension DataMember="IglesiaId" UniqueName="DataItem2" />
+      </DataItems>
+      <HiddenDimensions>
+        <Dimension UniqueName="DataItem2" />
+      </HiddenDimensions>
+      <Arguments>
+        <Argument UniqueName="DataItem0" />
+      </Arguments>
+      <Values>
+        <Value UniqueName="DataItem1" />
+      </Values>
+    </Pie>
+    <Chart ComponentName="chartDashboardItem1" Name="Ingresos por perfiles" DataSource="DataSource1" DataMember="Personas" FilterString="[DataItem1] &gt; #2016-01-01#">
+      <DataItems>
+        <Dimension DataMember="Perfil" UniqueName="DataItem0" />
+        <Measure DataMember="PersonaId" SummaryType="CountDistinct" UniqueName="DataItem2" />
+        <Dimension DataMember="FechaIngreso" DateTimeGroupInterval="MonthYear" UniqueName="DataItem1" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension UniqueName="DataItem0" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument UniqueName="DataItem1" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Pane 1">
+          <AxisY TitleVisible="false" />
+          <Series>
+            <Simple>
+              <Value UniqueName="DataItem2" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+    </Chart>
+    <Chart ComponentName="chartDashboardItem2" Name="Chart 1" ShowCaption="false" DataSource="DataSource1" DataMember="Personas">
+      <DataItems>
+        <Dimension DataMember="Ocupación" UniqueName="DataItem0" />
+        <Measure DataMember="PersonaId" SummaryType="CountDistinct" UniqueName="DataItem1" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension UniqueName="DataItem0" />
+      </SeriesDimensions>
+      <Panes>
+        <Pane Name="Pane 1">
+          <AxisY Title="Cantidad" />
+          <Series>
+            <Simple>
+              <Value UniqueName="DataItem1" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+      <AxisX TitleVisible="true" Title="Ocupaciones" />
+    </Chart>
+    <Chart ComponentName="chartDashboardItem3" Name="Cantidad por genero" DataSource="DataSource1" DataMember="Personas">
+      <DataItems>
+        <Dimension DataMember="Genero" UniqueName="DataItem0" />
+        <Measure DataMember="PersonaId" SummaryType="CountDistinct" UniqueName="DataItem1" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension UniqueName="DataItem0" />
+      </SeriesDimensions>
+      <Panes>
+        <Pane Name="Pane 1">
+          <AxisY TitleVisible="false" Title="Can" />
+          <Series>
+            <Simple>
+              <Value UniqueName="DataItem1" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+      <AxisX Visible="false" />
+    </Chart>
+    <ComboBox ComponentName="comboBoxDashboardItem1" Name="Filtro bautizado" DataSource="DataSource1" DataMember="Personas">
+      <DataItems>
+        <Dimension DataMember="Bautizado" UniqueName="DataItem0" />
+      </DataItems>
+      <FilterDimensions>
+        <Dimension UniqueName="DataItem0" />
+      </FilterDimensions>
+    </ComboBox>
+    <ComboBox ComponentName="comboBoxDashboardItem2" Name="Filtro genero" DataSource="DataSource1" DataMember="Personas">
+      <DataItems>
+        <Dimension DataMember="Genero" UniqueName="DataItem0" />
+      </DataItems>
+      <FilterDimensions>
+        <Dimension UniqueName="DataItem0" />
+      </FilterDimensions>
+    </ComboBox>
+    <ComboBox ComponentName="comboBoxDashboardItem3" Name="Filtro perfil" DataSource="DataSource1" DataMember="Personas" ComboBoxType="Checked">
+      <DataItems>
+        <Dimension DataMember="Perfil" UniqueName="DataItem0" />
+      </DataItems>
+      <FilterDimensions>
+        <Dimension UniqueName="DataItem0" />
+      </FilterDimensions>
+    </ComboBox>
+    <ComboBox ComponentName="comboBoxDashboardItem4" Name="Filtro por clasificación" DataSource="DataSource1" DataMember="Personas" ComboBoxType="Checked">
+      <DataItems>
+        <Dimension DataMember="Clasificacion" UniqueName="DataItem0" />
+      </DataItems>
+      <FilterDimensions>
+        <Dimension UniqueName="DataItem0" />
+      </FilterDimensions>
+    </ComboBox>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup Orientation="Vertical">
+      <LayoutGroup Weight="148.3116883116883">
+        <LayoutGroup Orientation="Vertical" Weight="150.08818342151673">
+          <LayoutGroup>
+            <LayoutGroup Orientation="Vertical">
+              <LayoutGroup>
+                <LayoutGroup Orientation="Vertical" Weight="60.616844602609689">
+                  <LayoutGroup>
+                    <LayoutGroup Orientation="Vertical" Weight="55.324675324675333">
+                      <LayoutItem DashboardItem="comboBoxDashboardItem1" Weight="55.324675324675333" />
+                      <LayoutItem DashboardItem="comboBoxDashboardItem2" Weight="144.67532467532465" />
+                      <LayoutItem DashboardItem="comboBoxDashboardItem3" Weight="144.67532467532465" />
+                      <LayoutItem DashboardItem="comboBoxDashboardItem4" Weight="144.67532467532465" />
+                      <LayoutItem DashboardItem="pieDashboardItem1" Weight="171.98043514926633" />
+                    </LayoutGroup>
+                    <LayoutGroup Orientation="Vertical" Weight="143.2081160535439">
+                      <LayoutGroup Weight="125.49025898610252">
+                        <LayoutGroup Orientation="Vertical" Weight="61.926415808178412">
+                          <LayoutItem DashboardItem="pieDashboardItem2" Weight="46.26700100652802" />
+                          <LayoutItem DashboardItem="chartDashboardItem3" Weight="51.240425702802831" />
+                        </LayoutGroup>
+                        <LayoutItem DashboardItem="chartDashboardItem2" Weight="138.07358419182162" />
+                      </LayoutGroup>
+                      <LayoutItem DashboardItem="chartDashboardItem1" Weight="69.406168755753086" />
+                    </LayoutGroup>
+                  </LayoutGroup>
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </LayoutGroup>
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>

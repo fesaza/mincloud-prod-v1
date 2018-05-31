@@ -1,0 +1,223 @@
+﻿@using ICC.Mincloud.Modelo.Util
+@using ICC.Mincloud.Web.Util
+@using Kendo.Mvc.UI
+@model ICC.Mincloud.Modelo.Entities.Persona
+
+<div class="panel-body">
+
+
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Nombre, new { @class = "control-label" })
+
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Nombre)
+
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Apellidos, new { @class = "control-label" })
+
+            @*<span class="block input-icon input-icon-right padding-10">*@
+            @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Apellidos)
+            @*</span>*@
+
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Identificacion, new { @class = "control-label" })
+
+            @Html.EditorFor(model => model.Identificacion, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Identificacion)
+
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.FechaNacimiento, new { @class = "control-label" })
+            <i class="ace-icon fa fa-calendar"></i>
+            @Html.EditorFor(model => model.FechaNacimiento, new { htmlAttributes = new { @style = "width:95%" } })
+            @Html.ValidationMessageFor(model => model.FechaNacimiento)
+
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Edad, new { @class = "control-label" })
+            @Html.EditorFor(model => model.Edad, new { htmlAttributes = new { @class = "width-95", @disabled = "disabled" } })
+        </div>
+
+        
+
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Direccion, new { @class = "control-label" })
+            <i class="ace-icon fa fa-map-marker"></i>
+            @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Direccion)
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Barrio, new { @class = "control-label" })
+
+            @(Html.Kendo().AutoComplete()
+          .Name("Barrio").HtmlAttributes(new { @style = "width:95%" })
+          .Filter("contains").Animation(true).Suggest(true)
+          .Placeholder("Seleccione o escriba un barrio...")
+          .DataSource(ds => ds.Read(read => read.Action("GetBarrios", "Personas").Data("filterBarrios")).ServerFiltering(true))
+            )
+            @Html.ValidationMessageFor(model => model.Barrio)
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Telefono, new { @class = "control-label" })
+            <i class="ace-icon fa fa-phone"></i>
+            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Telefono)
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Celular, new { @class = "control-label" })
+            <i class="ace-icon fa fa-mobile"></i>
+            @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Celular)
+        </div>
+
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+            <i class="ace-icon fa fa-envelope"></i>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Perfil, new { @class = "control-label" })
+            <div style="display: block">
+                @(Html.Kendo().DropDownList()
+                      .Name("Perfil")
+                      .HtmlAttributes(new { @style = "width:95%;height:28px" })
+                      .Events(e => e.Change("changePerfil"))
+                      .BindTo(Enum.GetNames(typeof(PerfilesMiembros)).ToList())
+                )
+                @Html.ValidationMessageFor(model => model.Perfil)
+            </div>
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.FechaIngreso, new { @class = "control-label" })
+
+            @Html.EditorFor(model => model.FechaIngreso, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.FechaIngreso)
+
+        </div>
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.EnSeguimiento, new { @class = "control-label" })
+            @Html.CheckBoxSwitch("EnSeguimiento", "changeCheckSeguimiento()")
+            @Html.EditorFor(model => model.EnSeguimiento, new { htmlAttributes = new { @hidden = "hidden" } })
+            @Html.ValidationMessageFor(model => model.EnSeguimiento)
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Convertido, new { @class = "control-label" })
+            @Html.CheckBoxSwitch("Convertido")
+            @Html.EditorFor(model => model.Convertido, new { htmlAttributes = new { @hidden = "hidden" } })
+            @Html.ValidationMessageFor(model => model.Convertido)
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Masculino, new { @class = "control-label" })
+            @Html.CheckBoxSwitch("Masculino", " M", "F", null)
+            @Html.EditorFor(model => model.Masculino, new { htmlAttributes = new { @hidden = "hidden" } })
+            @Html.ValidationMessageFor(model => model.Masculino)
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Bautizado, new { @class = "control-label" })
+            @Html.CheckBoxSwitch("Bautizado", "changeCheckBautizado()")
+            @Html.EditorFor(model => model.Bautizado, new { htmlAttributes = new { @hidden = "hidden" } })
+            @Html.ValidationMessageFor(model => model.Bautizado)
+        </div>
+        <div class="col-md-4" id="fechaBautismoDiv">
+            @Html.LabelFor(model => model.FechaBautismo, new { @class = "control-label" })
+            <i class="ace-icon fa fa-calendar"></i>
+            @Html.EditorFor(model => model.FechaBautismo, new { htmlAttributes = new { @style = "width:95%" } })
+            @Html.ValidationMessageFor(model => model.FechaBautismo)
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Clasificacion, new { @class = "control-label" })
+            <div style="display: block">
+                @(Html.Kendo().DropDownList()
+                      .Name("Clasificacion")
+                      .HtmlAttributes(new { @style = "width:95%;height:28px" })
+                      .BindTo(Enum.GetNames(typeof(Clasificaciones)).ToList())
+                )
+                @Html.ValidationMessageFor(model => model.Clasificacion)
+            </div>
+        </div>
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.Peticiones, new { @class = "control-label" })
+            <i class="ace-icon fa fa-envelope"></i>
+            @Html.EditorFor(model => model.Peticiones, new { htmlAttributes = new { @class = "width-95" } })
+            @Html.ValidationMessageFor(model => model.Peticiones)
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC568P0p4vqISWyaAwDMJYpikTx9SdmcyI&libraries=places"></script>
+<script>
+    
+    function initialize() {
+        //var mapOptions = {
+        //    center: {lat: -33.8688, lng: 151.2195},
+        //    zoom: 13,
+        //    scrollwheel: false
+        //};
+
+    //var map = new google.maps.Map(document.getElementById('map'),
+    //  mapOptions);
+
+    var input =  document.getElementById('Direccion');
+
+    // Create the autocomplete helper, and associate it with
+    // an HTML text input box.
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    //autocomplete.bindTo('bounds', map);
+
+    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    //var infowindow = new google.maps.InfoWindow();
+    //var marker = new google.maps.Marker({
+    //    map: map
+    //});
+    //google.maps.event.addListener(marker, 'click', function() {
+    //    infowindow.open(map, marker);
+    //});
+
+    // Get the full place details when the user selects a place from the
+    // list of suggestions.
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        //infowindow.close();
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            return;
+        }
+
+        //if (place.geometry.viewport) {
+        //    map.fitBounds(place.geometry.viewport);
+        //} else {
+        //    map.setCenter(place.geometry.location);
+        //    map.setZoom(17);
+        //}
+
+        // Set the position of the marker using the place ID and location.
+        @*marker.setPlace(/** @type {!google.maps.Place} */ ({
+            placeId: place.place_id,
+            location: place.geometry.location
+        }));*@
+        //marker.setVisible(true);
+
+        //infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+        //    'Place ID: ' + place.place_id + '<br>' +
+        //    place.formatted_address + '</div>');
+        //infowindow.open(map, marker);
+    });
+    }
+
+    // Run the initialize function when the window has finished loading.
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>

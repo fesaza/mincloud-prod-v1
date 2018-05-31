@@ -1,0 +1,10 @@
+﻿@using Kendo.Mvc.UI
+@model DateTime?
+
+<div style="display: block">
+
+    @(Html.Kendo().DatePicker().Name(ViewContext.ViewData.ModelMetadata.PropertyName)
+              .Value(@Model).Format("yyyy-MM-dd")
+              .HtmlAttributes(new { @style = "width:95%" }).Min(new DateTime(1910, 1, 1))
+    )
+</div>

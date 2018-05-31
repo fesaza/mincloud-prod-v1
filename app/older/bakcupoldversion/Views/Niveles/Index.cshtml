@@ -1,0 +1,133 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Nivel
+@{
+	ViewBag.Title = "Niveles";
+}
+
+<ul class="breadcrumb">
+	<li><a href="\">Tables</a> <span class="divider">/</span></li>
+	<li class="active">Niveles</li>
+</ul>
+
+@{
+	Func<string, object> routeValuesSortBy = (sortBy) => new {
+		page = ViewBag.Page,
+		pageSize = ViewBag.PageSize,
+		sortBy = sortBy,
+		sortDesc = ViewBag.SortBy != sortBy || ViewBag.SortDesc != null && ViewBag.SortDesc == true ? null : (object)true
+		,
+		ProgramaId = ViewBag.ProgramaId
+	};
+
+	Func<int, object> routeValuesPage = (page) => new {
+		page = page,
+		pageSize = ViewBag.PageSize,
+		sortBy = ViewBag.SortBy,
+		sortDesc = ViewBag.SortDesc
+		,
+		ProgramaId = ViewBag.ProgramaId
+	};
+
+	Func<object, string> formatValue = (value) => {
+		if (value == null)
+			return string.Empty;
+		string strValue = Convert.ToString(value);
+		if (strValue.Length > 20)
+			strValue = strValue.Substring(0, 20) + "...";
+		return strValue;
+	};
+}
+
+<script type="text/javascript">
+	function submitFilterForm(index, value) {
+		var f = document.getElementById('filterform');
+		f.elements[index].value = value;
+		f.submit();
+	}
+</script>
+
+<div class="row">
+	<div class="span8">
+		<form id="filterform" method="GET">
+			<input type="hidden" name="ProgramaId" value="@ViewBag.ProgramaId">
+			<div class="btn-group">
+@if (ViewBag.SelectedPrograma == null) {
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><small>Programa</small> <span class="caret"></span></a>
+}
+else {
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><small>Programa: <strong>@formatValue(ViewBag.SelectedPrograma)</strong></small> <span class="caret"></span></a>
+}
+				<ul class="dropdown-menu">
+@foreach (SelectListItem item in ViewBag.Programas) {
+					<li><a href="javascript:{}" onclick="submitFilterForm(0, '@item.Value');">@(item.Text ?? "[All]")</a></li>
+}
+				</ul>
+			</div>
+		</form>
+	</div>
+	<div class="span4">
+		@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary pull-right" })
+	</div>
+</div>
+
+<table class="table table-bordered table-striped table-condensed table-hover">
+	<thead>
+		<tr>
+			<th></th>
+			<th>
+				<a href="@Url.Action("Index", routeValuesSortBy("NivelId"))"><small>@Html.DisplayNameFor(model => model.NivelId)</small></a>
+			</th>
+			<th>
+				<a href="@Url.Action("Index", routeValuesSortBy("Nombre"))"><small>@Html.DisplayNameFor(model => model.Nombre)</small></a>
+			</th>
+			<th>
+				<a href="@Url.Action("Index", routeValuesSortBy("ProgramaId"))"><small>@Html.DisplayNameFor(model => model.ProgramaId)</small></a>
+			</th>
+			<th>
+				<small>Programa</small>
+			</th>
+		</tr>
+	</thead>
+@foreach (var item in ViewBag.Entities) {
+	<tr>
+
+		<td>
+			<div class="btn-group">
+				<a href="@Url.Action("Edit", new { NivelId = item.NivelId })" class="btn btn-mini"><i class="icon-pencil"></i></a>
+				<a href="@Url.Action("Details", new { NivelId = item.NivelId })" class="btn btn-mini"><i class="icon-info-sign"></i></a>
+				<a href="@Url.Action("Delete", new { NivelId = item.NivelId })" class="btn btn-mini"><i class="icon-trash"></i></a>
+			</div>
+		</td>
+		<td>
+			<small>@formatValue(item.NivelId)</small>
+		</td>
+		<td>
+			<small>@formatValue(item.Nombre)</small>
+		</td>
+		<td>
+			<small>@formatValue(item.ProgramaId)</small>
+		</td>
+		<td>
+			<a href="@Url.Action("Details", "Programas", new { ProgramaId = item.ProgramaId })"><small>View</small></a>
+		</td>
+	</tr>
+}
+</table>
+
+@if (ViewBag.PaginationData != null) {
+	int currentPage = ViewData.ContainsKey("Page") ? ViewBag.Page : 1;
+<div class="pagination pagination-centered pagination-small">
+	<ul>
+	@foreach (Tuple<string, bool, int> pageTuple in ViewBag.PaginationData) {
+		if (!pageTuple.Item2) {
+			<li class="disabled"><span>@pageTuple.Item1</span></li>
+		}
+		else if (pageTuple.Item3 == currentPage) {
+			<li class="active"><span>@pageTuple.Item1</span></li>
+		}
+		else {
+			 <li ><a href="@Url.Action("Index", routeValuesPage(pageTuple.Item3))">@pageTuple.Item1</a></li>
+		}
+	}
+	</ul>
+</div>
+}

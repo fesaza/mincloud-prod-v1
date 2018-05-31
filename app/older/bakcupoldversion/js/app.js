@@ -1,0 +1,1 @@
+﻿var directory = "/app/";

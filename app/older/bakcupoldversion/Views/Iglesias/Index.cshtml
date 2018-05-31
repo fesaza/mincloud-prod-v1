@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ICC.Mincloud.Modelo.Entities.Iglesia>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="page-header">
+    <h1>
+        Iglesias
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de iglesias
+            @*<button class="btn btn-primary pull-right" id="btnNuevo"><i class='ace-icon fa fa-user-plus bigger-110'></i> Crear </button>*@
+            @Html.ActionLink("Crear", "Create", null, new { @class = "btn btn-primary pull-right" })
+        </small>
+
+        @*@Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+
+
+    </h1>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MunicipioId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CorreoContacto)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MunicipioId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CorreoContacto)
+        </td>
+        <td>
+            <a class="btn btn-sm btn-success" href="/Iglesias/Edit/@item.IglesiaId"><i class='ace-icon fa fa-pencil'></i> Editar</a>
+            <a class="btn btn-sm btn-info" href="/Iglesias/Details/@item.IglesiaId"><i class='ace-icon fa fa-info'></i> Detalles</a>
+            <a class="btn btn-sm btn-danger" href="/Iglesias/Delete/@item.IglesiaId"><i class='ace-icon fa fa-trash'></i> Eliminar</a>
+
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,11 @@
+@model DevExpress.DashboardWeb.Mvc.DashboardSourceModel
+
+
+    @Html.DevExpress().DashboardViewer(settings =>
+{
+    settings.Style.Add("width","100%");
+    settings.Style.Add("height", "800px");
+    settings.Name = "DashboardViewerPersonas";
+    settings.CallbackRouteValues = new { Controller = "Dashboards", Action = "DashboardViewerPersonasPartial" };
+    settings.ExportRouteValues = new { Controller = "Dashboards", Action = "DashboardViewerPersonasPartialExport" };
+}).BindToSource(Model).GetHtml()

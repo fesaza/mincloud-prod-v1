@@ -1,0 +1,29 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Nivel
+@{
+	ViewBag.Title = "Edit";
+}
+
+<ul class="breadcrumb">
+	<li><a href="\">Tables</a> <span class="divider">/</span></li>
+	<li>@Html.ActionLink("Niveles", "Index", "Niveles") <span class="divider">/</span></li>
+	<li class="active">Edit</li>
+</ul>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Create", "Niveles", FormMethod.Post, new { @class = "form-horizontal" })) {
+	@Html.ValidationSummary(true)
+	<fieldset>
+		<legend>Nivele</legend>
+
+			@Html.HiddenFor(model => model.NivelId)
+			@Html.Partial("_CreateOrEdit", Model)
+
+		<div class="control-group">
+			<div class="controls">
+				<input type="submit" value="Save" class="btn btn-success" />
+				@Html.ActionLink("Cancel", "Index", null, new { @class = "btn" })
+			</div>
+		</div>
+	</fieldset>
+}

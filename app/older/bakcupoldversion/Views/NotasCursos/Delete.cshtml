@@ -1,0 +1,52 @@
+﻿@model ICC.Mincloud.Modelo.Entities.NotasCurso
+@{
+	ViewBag.Title = "Delete";
+}
+
+<ul class="breadcrumb">
+	<li><a href="\">Tables</a> <span class="divider">/</span></li>
+	<li>@Html.ActionLink("NotasCursos", "Index", "NotasCursos") <span class="divider">/</span></li>
+	<li class="active">Delete</li>
+</ul>
+<div class="row">
+	<div class="span4">
+		<table class="table table-bordered table-striped table-condensed table-hover pull-left">
+			<tr>
+				<td>@Html.LabelFor(x => x.PeriodoId)</td>
+				<td>@Model.PeriodoId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.MateriaId)</td>
+				<td>@Model.MateriaId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Valor)</td>
+				<td>@Model.Valor</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Porcetaje)</td>
+				<td>@Model.Porcetaje</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Materia)</td>
+		<td>
+			<a href="@Url.Action("Details", "Materias", new { MateriaId = Model.MateriaId })"><small>View</small></a>
+		</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Periodo)</td>
+		<td>
+			<a href="@Url.Action("Details", "Periodos", new { PeriodoId = Model.PeriodoId })"><small>View</small></a>
+		</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+@using (Html.BeginForm()) {
+		<input type="submit" value="Delete" class="btn btn-danger" />
+		@Html.ActionLink("Cancel", "Index", null, new { @class = "btn" })
+}
+	</div>
+</div>

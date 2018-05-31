@@ -1,0 +1,39 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Nivel
+@{
+	ViewBag.Title = "Details";
+}
+
+<ul class="breadcrumb">
+	<li><a href="\">Tables</a> <span class="divider">/</span></li>
+	<li>@Html.ActionLink("Niveles", "Index", "Niveles") <span class="divider">/</span></li>
+	<li class="active">Details</li>
+</ul>
+<div class="row">
+	<div class="span4">
+		<table class="table table-bordered table-striped table-condensed table-hover pull-left">
+			<tr>
+				<td>@Html.LabelFor(x => x.Nombre)</td>
+				<td>@Model.Nombre</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.ProgramaId)</td>
+				<td>@Model.ProgramaId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Programa)</td>
+		<td>
+			<a href="@Url.Action("Details", "Programas", new { ProgramaId = Model.ProgramaId })"><small>View</small></a>
+		</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+		<div class="btn-group">
+			<a href="@Url.Action("Edit", new { NivelId = Model.NivelId })" class="btn"><i class="icon-pencil"></i> Edit</a>
+			<a href="@Url.Action("Delete", new { NivelId = Model.NivelId })" class="btn"><i class="icon-trash"></i> Delete</a>
+		</div>
+		@Html.ActionLink("Back to List", "Index", null, new { @class = "pull-right" })
+	</div>
+</div>

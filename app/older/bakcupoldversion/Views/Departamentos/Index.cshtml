@@ -1,0 +1,60 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@model ICC.Mincloud.Modelo.Entities.Departamento
+@{
+	ViewBag.Title = "Departamentos";
+}
+
+<ul class="breadcrumb">
+    <li class="active">Departamentos</li>
+</ul>
+
+<div class="row">
+    <div class="span8">
+    </div>
+    <div class="span4">
+        @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Departamentos</h4>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    @(Html.Kendo().Grid<Departamento>()
+                          .Name("grdFiltros")
+                          .Columns(columns =>
+                          {
+                              columns.Bound(c => c.DepartamentoId).ClientTemplate("<div class='btn-group'>" +
+                                                                             "<a href='" + @Url.Action("Edit", new { DepartamentoId = "#: DepartamentoId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-pencil'></i></a>" +
+                                                                             "</div>" +
+                                                                             "<div class='btn-group'>" +
+                                                                             "<a href='" + @Url.Action("Delete", new { DepartamentoId = "#: DepartamentoId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-trash'></i></a>" +
+                                                                             "</div>").Width(100).Title("Acciones").Filterable(false);
+                              columns.Bound(c => c.Paise.Nombre).Title("Pais").Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                              columns.Bound(c => c.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                          })
+                          .Scrollable()
+                          .Sortable()
+                          .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                          .Pageable(pageable => pageable
+                              .Refresh(true)
+                              .PageSizes(true)
+                              .ButtonCount(5))
+                          .DataSource(dataSource => dataSource
+                              .Ajax()
+                              .PageSize(20)
+                              .ServerOperation(true)
+                              .Read(read => read.Action("GetDepartamentos", "Departamentos")))
+                    )
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

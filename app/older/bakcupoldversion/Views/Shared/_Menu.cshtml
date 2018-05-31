@@ -1,0 +1,246 @@
+﻿<div id="sidebar" style="margin-top: initial" class="sidebar responsive ace-save-state menu-min">
+    <script type="text/javascript">
+        try { ace.settings.loadState('sidebar') } catch (e) { }
+    </script>
+
+    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+            @*<button class="btn btn-success">
+                <i class="ace-icon fa fa-signal"></i>
+            </button>*@
+
+            
+            <!-- #section:basics/sidebar.layout.shortcuts -->
+            
+            <a href="@Url.Action("Index", "Home")" class="btn btn-danger" data-toggle="tooltip" title="Configuraciones de cuenta">
+                <i class="ace-icon fa fa-home"></i>
+            </a>
+
+            <a href="~/Iglesias" class="btn btn-success" data-toggle="tooltip" title="Perfil de iglesia">
+                <i class="ace-icon fa fa-cogs"></i>
+            </a>
+
+            
+
+            <a href="~/Personas" class="btn btn-info" data-toggle="tooltip" title="Listado de miembros">
+                <i class="ace-icon fa fa-list-alt"></i>
+            </a>
+
+            <a href="@Url.Action("Create","Personas",new {Perfil = "Nuevo"})" data-toggle="tooltip" title="Persona nueva" class="btn btn-warning">
+                <i class="ace-icon fa fa-user-plus"></i>
+            </a>
+            <!-- /section:basics/sidebar.layout.shortcuts -->
+        </div>
+
+        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+            <span class="btn btn-success"></span>
+
+            <span class="btn btn-info"></span>
+
+            <span class="btn btn-warning"></span>
+
+            <span class="btn btn-danger"></span>
+        </div>
+    </div><!-- /.sidebar-shortcuts -->
+
+    <ul class="nav nav-list">
+        <li class="">
+            <a href="~/personas/dashboard">
+                <i class="menu-icon fa fa-tachometer"></i>
+                <span class="menu-text"> Indicadores </span>
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-users"></i>
+                <span class="menu-text">
+                    Personas
+                </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+
+                <li class="">
+                    <a href="~/Personas">
+                        <i class="menu-icon fa fa-users green"></i>
+                        Personas
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="~/SeguimientosPersonas">
+                        <i class="menu-icon fa fa-check-square orange"></i>
+                        Seguimientos
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="~/Personas/Dashboard">
+                        <i class="menu-icon fa fa-tachometer purple"></i>
+                        Indicadores
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-heartbeat"></i>
+                <span class="menu-text">
+                    Celulas
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li>
+                    <a href="~/Celulas"><i class="menu-icon fa fa-caret-right"></i> Células</a>
+                    <b class="arrow"></b>
+                </li>
+                @*<li class="">
+                        <a href="~/MovimientosFinanzas"><i class="menu-icon fa fa-caret-right"></i> Movimientos </a>
+                        <b class="arrow"></b>
+                    </li>*@
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-money"></i>
+                <span class="menu-text">
+                    Finanzas
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li>
+                    <a href="~/ConceptosFinanzas"><i class="menu-icon fa fa-caret-right"></i> Conceptos</a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="~/MovimientosFinanzas"><i class="menu-icon fa fa-caret-right"></i> Movimientos </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        @*<li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-graduation-cap"></i>
+                <span class="menu-text">
+                    Capacitaciones
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li>
+                    <a href="~/Programas"><i class="menu-icon fa fa-caret-right"></i> Programas</a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="~/Programas"><i class="menu-icon fa fa-caret-right"></i> Inscripciones </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="~/Periodos"><i class="menu-icon fa fa-caret-right"></i> Periodos </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="~/Periodos"><i class="menu-icon fa fa-caret-right"></i> Matriculas </a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="~/Notas"><i class="menu-icon fa fa-caret-right"></i> Calificaciones </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>*@
+
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-cogs"></i>
+                <span class="menu-text">
+                    Configuraciones
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="hover">
+                    <a href="~/Ministerios">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Ministerios
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="hover">
+                    <a href="~/Ocupaciones">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Ocupaciones
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="hover">
+                    <a href="~/Iglesias">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Perfil de la iglesia
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="hover">
+                    <a href="~/TiposReuniones">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Tipos de reuniones
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="hover">
+                    <a href="~/Seguimientos">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Seguimientos
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                
+            </ul>
+        </li>
+
+
+
+    </ul><!-- /.nav-list -->
+    <!-- #section:basics/sidebar.layout.minimize -->
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+        <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+           data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div>
+
+    <!-- /section:basics/sidebar.layout.minimize -->
+</div>

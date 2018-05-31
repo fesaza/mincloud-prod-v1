@@ -1,0 +1,41 @@
+﻿@*@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/menu")
+
+
+
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+
+@Scripts.Render("~/bundles/kendo")
+@Scripts.Render("~/bundles/menu")
+<h3>Qué tipo de persona desea agregar?</h3>
+<div class="row">
+    @Html.ActionLink("Nuevo", "Create", new {Perfil = "Nuevo"})
+    @Html.ActionLink("Asistente regular", "Create", new {Perfil = "Asistente"})
+    @Html.ActionLink("Lider", "Create", new {Perfil = "Lider"})
+    
+</div>
+<button class="btn btn-primary pull-right" id="btnNuevoClose">Crear</button>
+<script>
+    $(document).ready(function() {
+        var windowPerfil = this;
+        
+        $("#btnNuevoClose").click(function(e) {
+            debugger;
+            //windowPerfil.data("kendoWindow").close();
+            $("#btnNuevoClose").closest(".k-window-content").data("kendoWindow").close();
+        });
+    });
+
+    function CierreWndwModal(e) {
+
+    }
+</script>
+@*<script>
+
+
+$(document).ready(function () {
+        
+    });
+</script>*@
+@Scripts.Render("~/bundles/bootstrap")*@

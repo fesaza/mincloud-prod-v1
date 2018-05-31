@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "DashboardDesigner";
+    Layout = "~/Views/Shared/_DashboardDesigner.cshtml";
+}
+
+
+@Html.DevExpress().DashboardDesigner(settings => {
+	settings.Name = "DashboardDesigner";
+    
+}).GetHtml()
+
+
+
+

@@ -1,0 +1,66 @@
+﻿@model ICC.Mincloud.Modelo.Entities.SeguimientosPersona
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SeguimientosPersona</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Encargado.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Encargado.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seguimiento.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seguimiento.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaSeguimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaSeguimiento)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SeguimientosPersonaId }) |
+    @Html.ActionLink("Cancelar", "Index")
+</p>

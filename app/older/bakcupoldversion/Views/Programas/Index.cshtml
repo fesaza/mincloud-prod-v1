@@ -1,0 +1,23 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Programa
+@{
+    ViewBag.Title = "Programas de capacitaciones";
+}
+
+<div class="page-header">
+    <h1>
+        <i class="menu-icon fa fa-graduation-cap"></i> Programas
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de programas
+            <a class="btn btn-primary pull-right open-button" href='@Url.Action("Create","Programas")' id="btnNuevo">
+                <i class='ace-icon fa fa-graduation-cap'></i> Crear programa
+            </a>
+        </small>
+
+        @*@Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+
+
+    </h1>
+</div>
+
+@Html.Partial("_ProgramasList")

@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <div class="widget-box widget-color-green3">
+            <div class="widget-header widget-header-small">
+                <h6 class="widget-title">Configuraciones</h6>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="ace-icon fa fa-chevron-up"></i></a><br />
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="">
+                    <a href="~/Iglesias" class="btn btn-white btn-success btn-block">
+                        <i class="ace-icon fa fa-home bigger-200"></i> Iglesia
+                    </a><br />
+                    <a href="~/Seguimientos/Create" class="btn btn-white btn-success btn-block">
+                        <i class="ace-icon fa fa-check bigger-200"></i> Crear Seguimientos
+                    </a><br />
+                    <a href="~/Ministerios/Create" class="btn btn-white btn-success btn-block">
+                        <i class="ace-icon fa fa-briefcase bigger-200"></i> Crear Ministerios
+                    </a><br />
+                    <a href="~/TiposReuniones/Create" class="btn btn-white btn-success btn-block">
+                        <i class="ace-icon fa fa-clock-o bigger-200"></i> Crear Tipos de reuniones
+                    </a><br />
+                    <a href="~/Ocupaciones/Create" class="btn btn-white btn-success btn-block">
+                        <i class="ace-icon fa fa-building-o bigger-200"></i> Crear ocupaciones
+                    </a><br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <div class="widget-box widget-color-green">
+            <div class="widget-header widget-header-small">
+                <h6 class="widget-title">Personas</h6>
+                <div class="widget-toolbar">
+                    <a data-action="collapse" href="#"><i class="ace-icon fa fa-chevron-up"></i></a><br />
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="">
+                    <a href="~/Personas" class="btn btn-white btn-primary btn-block">
+                        <i class="ace-icon fa fa-users bigger-200"></i> Listado de personas
+                    </a><br />
+                    
+                    <a href="~/Personas/Create?Perfil=Nuevo" class="btn btn-white btn-primary btn-block">
+                        <i class="ace-icon fa fa-user-plus bigger-200"></i> Crear persona nueva
+                    </a><br />
+                    <a href="~/Personas/Create?Perfil=Asistente" class="btn btn-white btn-primary btn-block">
+                        <i class="ace-icon fa fa-user-plus bigger-200"></i> Crear persona asistente
+                    </a><br />
+                    <a href="~/Personas/Create?Perfil=Lider" class="btn btn-white btn-primary btn-block">
+                        <i class="ace-icon fa fa-user-plus bigger-200"></i> Crear persona lider
+                    </a><br />
+                    <a href="~/Personas/Create?Perfil=Lider" class="btn btn-white btn-primary btn-block">
+                        <i class="ace-icon fa fa-dashboard bigger-200"></i> Indicadores
+                    </a><br />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

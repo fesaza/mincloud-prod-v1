@@ -1,0 +1,133 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Persona
+@{
+	ViewBag.Title = "Details";
+}
+
+<ul class="breadcrumb">
+	<li><a href="\">Tables</a> <span class="divider">/</span></li>
+	<li>@Html.ActionLink("Personas", "Index", "Personas") <span class="divider">/</span></li>
+	<li class="active">Details</li>
+</ul>
+<div class="row">
+	<div class="span4">
+		<table class="table table-bordered table-striped table-condensed table-hover pull-left">
+			<tr>
+				<td>@Html.LabelFor(x => x.Nombre)</td>
+				<td>@Model.Nombre</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Apellidos)</td>
+				<td>@Model.Apellidos</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Identificacion)</td>
+				<td>@Model.Identificacion</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.TipoIdentificacion)</td>
+				<td>@Model.TipoIdentificacion</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.FechaNacimiento)</td>
+				<td>@Model.FechaNacimiento</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Direccion)</td>
+				<td>@Model.Direccion</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Barrio)</td>
+				<td>@Model.Barrio</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Telefono)</td>
+				<td>@Model.Telefono</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Celular)</td>
+				<td>@Model.Celular</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Email)</td>
+				<td>@Model.Email</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.MunicipioId)</td>
+				<td>@Model.MunicipioId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.OcupacionId)</td>
+				<td>@Model.OcupacionId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Facebook)</td>
+				<td>@Model.Facebook</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Twitter)</td>
+				<td>@Model.Twitter</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Instagram)</td>
+				<td>@Model.Instagram</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Convertido)</td>
+				<td>@Model.Convertido</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.FechaBaja)</td>
+				<td>@Model.FechaBaja</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.FechaRegistro)</td>
+				<td>@Model.FechaRegistro</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.PersonaInvitaId)</td>
+				<td>@Model.PersonaInvitaId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.TipoReunionPrimeraVezId)</td>
+				<td>@Model.TipoReunionPrimeraVezId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Municipio)</td>
+		<td>
+			<a href="@Url.Action("Details", "Municipios", new { MunicipioId = Model.MunicipioId })"><small>View</small></a>
+		</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Persona_PersonaInvitaId)</td>
+@if (Model.PersonaInvitaId != null) {
+		<td>
+			<a href="@Url.Action("Details", "Personas", new { PersonaId = Model.PersonaInvitaId })"><small>View</small></a>
+		</td>
+}
+else {
+		<td></td>
+}
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.TiposReunione)</td>
+@if (Model.TipoReunionPrimeraVezId != null) {
+		<td>
+			<a href="@Url.Action("Details", "TiposReuniones", new { TipoReunionId = Model.TipoReunionPrimeraVezId })"><small>View</small></a>
+		</td>
+}
+else {
+		<td></td>
+}
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+		<div class="btn-group">
+			<a href="@Url.Action("Edit", new { PersonaId = Model.PersonaId })" class="btn"><i class="icon-pencil"></i> Edit</a>
+			<a href="@Url.Action("Delete", new { PersonaId = Model.PersonaId })" class="btn"><i class="icon-trash"></i> Delete</a>
+		</div>
+		@Html.ActionLink("Back to List", "Index", null, new { @class = "pull-right" })
+	</div>
+</div>

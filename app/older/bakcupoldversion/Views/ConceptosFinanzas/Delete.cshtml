@@ -1,0 +1,22 @@
+﻿@model ICC.Mincloud.Modelo.Entities.ConceptosFinanzas
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i class="fa fa-remove"></i> Eliminar concepto</h2>
+<hr />
+<div class="container">
+    <h4>Esta seguro de eliminar el concepto @Html.DisplayFor(model => model.CodigoConcepto) - @Html.DisplayFor(model => model.NombreConcepto)?</h4>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-xs-12">
+                <a href="@Url.Action("Index","ConceptosFinanzas")" class="btn"><i class="fa fa-arrow-left"></i> Cancelar</a>
+                <button type="submit" class="btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button>
+            </div>
+        </div>
+    }
+</div>

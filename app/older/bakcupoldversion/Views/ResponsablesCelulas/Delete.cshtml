@@ -1,0 +1,38 @@
+﻿@model ICC.Mincloud.Modelo.Entities.ResponsablesCelula
+@{
+	ViewBag.Title = "Delete";
+}
+
+<ul class="breadcrumb">
+	<li><a href="\">Tables</a> <span class="divider">/</span></li>
+	<li>@Html.ActionLink("ResponsablesCelulas", "Index", "ResponsablesCelulas") <span class="divider">/</span></li>
+	<li class="active">Delete</li>
+</ul>
+<div class="row">
+	<div class="span4">
+		<table class="table table-bordered table-striped table-condensed table-hover pull-left">
+			<tr>
+				<td>@Html.LabelFor(x => x.PersonaId)</td>
+				<td>@Model.PersonaId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Encargado)</td>
+				<td>@Model.Encargado</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Persona)</td>
+		<td>
+			<a href="@Url.Action("Details", "Personas", new { PersonaId = Model.PersonaId })"><small>View</small></a>
+		</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+@using (Html.BeginForm()) {
+		<input type="submit" value="Delete" class="btn btn-danger" />
+		@Html.ActionLink("Cancel", "Index", null, new { @class = "btn" })
+}
+	</div>
+</div>

@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+
+
+}
+@model ICC.Mincloud.Modelo.Entities.SeguimientosPersona
+
+@using (Html.BeginForm("EditarSeguimiento", "Personas", FormMethod.Post, new { @onsubmit = "onSubmitCompleted" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset class="col-md-12">
+        @Html.HiddenFor(model => model.SeguimientosPersonaId)
+        
+        
+        @{ Html.RenderPartial("_AgregarSeguimiento");    }
+
+        <div class="row">
+            <div class="col-md-3 col-md-offset-4">
+                <input type="submit" value="Editar" class="btn btn-success" />
+            </div>
+        </div>
+    </fieldset>
+            }
+
+<script>
+    function onSubmitCompleted(args) {
+        debugger;
+        //$(this).closest("[data-role=window]").kendoWindow("close");
+    }
+</script>

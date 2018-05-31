@@ -1,0 +1,223 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+
+<style>
+    .vencido {
+        font-weight: bold;
+        color: #f00;
+    }
+
+    .warning {
+        font-weight: bold;
+        color: #5cb85c;
+    }
+
+    .ok {
+        background-color: #ced;
+    }
+</style>
+
+<div id="filtros">
+    
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Personas por perfiles
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div id="perfiles" style="position: relative"></div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Historico de ingresos de miembros
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="historicos" style="position: relative"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Próximos cumpleaños
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body" style="height: 350px">
+                <small>
+                    @(Html.Kendo().Grid<Persona>().Mobile()
+                          .Name("grdFiltros")
+                          .Columns(columns =>
+                          {
+                              columns.Bound(c => c.PersonaId).ClientTemplate("<div class='btn-group'>" +
+                                                                             "<a href='" + @Url.Action("Edit", new { PersonaId = "#: PersonaId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-pencil'></i></a>" +
+                                                                             "</div>").Width(40).Title("").Filterable(false);
+                              columns.Bound(c => c.NombreCompleto).Filterable(false);
+                              columns.Bound(c => c.Celular).Filterable(false).Width(90);
+                              columns.Bound(c => c.Edad).Filterable(false).Width(70).HtmlAttributes(new { style = "text-align:center" });
+                              columns.Bound(c => c.FechaNacimiento).Filterable(false).Format("{0:dd-MMM-yyyy}").Width(90);
+                          })
+                          .Scrollable().ColumnMenu().Groupable(g => g.Enabled(false))
+                          .Sortable().HtmlAttributes(new { style = "height:300px" })
+                          .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                          .Pageable(pageable => pageable
+                              .Refresh(true)
+                              .PageSizes(true)
+                              .ButtonCount(5))
+                          .Events(events => events.DataBound("onDataBoundCumpleanios"))
+                          .DataSource(dataSource => dataSource
+                              .Ajax()
+                              .PageSize(20)
+                              .ServerOperation(true)
+                              .Read(read => read.Action("GetPersonasCumpleanios", "Personas")))
+                    )
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Seguimientos pendientes
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body" style="height: 350px">
+
+                <small>
+                    @(Html.Kendo().Grid<SeguimientosPersona>().Mobile()
+                          .Name("grdSegPendientes")
+                          .Columns(columns =>
+                          {
+                              columns.Bound(c => c.SeguimientosPersonaId).ClientTemplate("<div class='btn-group'>" +
+                                                                                         "<a href='" + @Url.Action("Edit", "SeguimientosPersonas", new { id = "#: SeguimientosPersonaId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-pencil'></i></a>" +
+                                                                                         "</div>").Width(40).Title("").Filterable(false);
+                              columns.Bound(c => c.Persona.NombreCompleto).Filterable(false);
+                              columns.Bound(c => c.Encargado.Nombre).Filterable(false).Width(90).Title("Encargado");
+                              columns.Bound(c => c.Seguimiento.Nombre).Filterable(false).Width(70).Title("Seguimiento"); //.HtmlAttributes(new { style = "text-align:center" });
+                              columns.Bound(c => c.FechaSeguimiento).Filterable(false).Width(90).Format("{0:dd-MMM-yyyy}").Width(90);
+
+                          })
+                          .Scrollable().ColumnMenu().Groupable(g => g.Enabled(false))
+                          .Sortable().HtmlAttributes(new { style = "height:300px" })
+                          .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                          .Pageable(pageable => pageable
+                              .Refresh(true)
+                              .PageSizes(true)
+                              .ButtonCount(5))
+                          .Events(events => events.DataBound("onDataBound"))
+                          .DataSource(dataSource => dataSource
+                              .Ajax()
+                              .PageSize(20)
+                              .ServerOperation(true).Sort(p => p.Add(c => c.FechaSeguimiento))
+                              .Read(read => read.Action("GetSeguimientosPendientes", "Personas")))
+                    )
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Distribución por generos
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="generos" style="position: relative"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Distribucion por barrios
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="barrios" style="position: relative"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Cantidad de miembros por barrios
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="barriosCount" style="position: relative"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Cantidad de seguimientos pendientes
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="seguimientosChart" style="position: relative"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Cantidad de miembros por edades
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="edadesChart" style="position:relative"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Cantidad de seguimientos pendientes
+                <div class="pull-right">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="seguimientosChart2" style="position:relative"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    @Scripts.Render("~/bundles/personaDashboard")
+}

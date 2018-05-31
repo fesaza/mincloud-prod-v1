@@ -1,0 +1,25 @@
+﻿@model ICC.Mincloud.Modelo.Entities.ResponsablesCelula
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+	@Html.LabelFor(model => model.PersonaId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.PersonaId)
+		@Html.ValidationMessageFor(model => model.PersonaId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Encargado, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.Encargado)
+		@Html.ValidationMessageFor(model => model.Encargado)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Persona, new { @class = "control-label" })
+	<div class="controls">
+		@Html.DropDownListFor(model => model.PersonaId, (IEnumerable<SelectListItem>)ViewBag.Persona)
+		@Html.ValidationMessageFor(model => model.Persona)
+	</div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model ICC.Mincloud.Modelo.Entities.TiposReunione
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+	@Html.LabelFor(model => model.Nombre, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.Nombre)
+		@Html.ValidationMessageFor(model => model.Nombre)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Descripcion, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.Descripcion)
+		@Html.ValidationMessageFor(model => model.Descripcion)
+	</div>
+</div>

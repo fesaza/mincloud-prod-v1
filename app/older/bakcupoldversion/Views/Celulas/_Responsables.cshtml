@@ -1,0 +1,85 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+
+<div>
+    <div class="row">
+        <input type="button" onclick="OpenPopUpNewResponsable()" class="btn btn-adn" value="Agregar">
+    </div>
+    <div class="row">
+        @(Html.Kendo().Grid<ResponsablesCelula>()
+                      .Name("grdResponsablesCelula")
+                      .Columns(columns =>
+                      {
+                          columns.Bound(c => c.ResponsablesCelulaId).ClientTemplate(
+                              "<div class='btn-group'>" +
+                              "<input type='button' onclick='eliminarResponsableConfirm(this)' class='btn btn - adn' value='Eliminar'/>" +
+                              "</div>").Width(100).Title("Acciones").Filterable(false);
+                          columns.Bound(c => c.Persona.NombreCompleto).Title("Responsable");
+                          columns.Bound(c => c.Encargado).Title("Lider general?");
+                      })
+                      .Scrollable()
+                      .Sortable()
+                      .Filterable()
+                      .Pageable(pageable => pageable
+                          .Refresh(true)
+                          .PageSizes(true)
+                          .ButtonCount(5))
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .Read(read => read.Action("GetResponsablesByCelula", "Celulas")))
+        )
+    </div>
+</div>
+
+@(Html.Kendo().Window()
+              .Name("windowResponsables") //The name of the window is mandatory. It specifies the "id" attribute of the widget.
+              .Title("Seguimiento") //set the title of the window
+              .Draggable(true) //Enable dragging of the window
+              .Visible(false) //Enable resizing of the window
+              .Iframe(true)
+              .LoadContentFrom("AddResponsables", "Celulas")
+              .Events(events => events.Close("CierreWndwModal")).Scrollable(false).Width(600)
+)
+
+
+
+
+
+<script>
+    function CierreWndwModal() {
+        $('#grdResponsablesCelula').data('kendoGrid').dataSource.read();
+    }
+
+    function OpenPopUpNewResponsable() {
+        var window = $("#windowResponsables").data("kendoWindow");
+        window.setOptions({
+            width: "74%",
+            height: "47%"
+        });
+        window.center();
+        window.open();
+    }
+
+    function eliminarResponsableConfirm(sender) {
+        var parameters = getCelulaPersonaId(sender);
+        $.ajax({
+            url: '../EliminarResponsable?responsableCelulaId=' + parameters,
+            type: 'POST',
+            contentType: 'application/json;',
+            success: function (result) {
+                CierreWndwModal();
+            }
+        });
+    }
+
+    function getCelulaPersonaId(sender) {
+        var t = sender.closest('tr');
+        var seguimientoPersonaId = $(t).attr('data-uid');
+        var data = $("#grdResponsablesCelula").data("kendoGrid").dataSource.view();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].uid == seguimientoPersonaId) {
+                return data[i].get("TempId");
+            }
+        }
+    }
+</script>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ICC.Mincloud.Modelo.Entities.Ministerio>
+
+@{
+    ViewBag.Title = "Ministerios";
+}
+
+<div class="page-header">
+    <h1>
+        Ministerios
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de ministerios
+            @*<button class="btn btn-primary pull-right" id="btnNuevo"><i class='ace-icon fa fa-user-plus bigger-110'></i> Crear </button>*@
+            @Html.ActionLink("Crear", "Create", null, new { @class = "btn btn-primary pull-right" })
+        </small>
+
+        @*@Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+
+
+    </h1>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            <a class="btn btn-sm btn-success" href="/Ministerios/Edit/@item.MinisterioId"><i class='ace-icon fa fa-pencil'></i> Editar</a>
+            <a class="btn btn-sm btn-info" href="/Ministerios/Details/@item.MinisterioId"><i class='ace-icon fa fa-info'></i> Detalles</a>
+            <a class="btn btn-sm btn-danger" href="/Ministerios/Delete/@item.MinisterioId"><i class='ace-icon fa fa-trash'></i> Eliminar</a>
+            
+        </td>
+    </tr>
+}
+
+</table>

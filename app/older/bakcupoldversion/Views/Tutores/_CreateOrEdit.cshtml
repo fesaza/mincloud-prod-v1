@@ -1,0 +1,11 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Tutor
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+	@Html.LabelFor(model => model.PersonaId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.PersonaId)
+		@Html.ValidationMessageFor(model => model.PersonaId)
+	</div>
+</div>

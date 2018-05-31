@@ -1,0 +1,50 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@model IEnumerable<ICC.Mincloud.Modelo.Entities.Nota>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="">
+                <div class="row">
+                    @(Html.Kendo().Grid<Grupo>().Mobile()
+                              .Name("grdFiltros")
+                              .Columns(columns =>
+                              {
+                                  
+                                  columns.Bound(c => c.Periodo.Programa.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Programa");
+                                  columns.Bound(c => c.Periodo.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Periodo");
+                                  columns.Bound(c => c.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Nombre grupo");
+                                  columns.Bound(c => c.Materia.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Materia");
+                                  columns.Bound(c => c.Tutor.Persona.NombreCompletoSimple).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Tutor");
+                                  columns.Bound(c => c.GrupoId).ClientTemplate("<div class='btn-group'>" +
+                                                                                 "<a href='" + @Url.Action("Edit", "Notas", new { id = "#: GrupoId#" }) + "' class='btn btn-success orange btn-sm'><i class='ace-icon fa fa-calendar-check-o'></i>Calificaciones</a>" +
+                                                                                 "</div>").Width(100).Title("Grupos").Filterable(false);
+                              })
+
+                              .ColumnMenu().Groupable(g => g.Enabled(false))
+                              .Sortable()
+                              .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                              .Pageable(pageable => pageable
+                                  .Refresh(true)
+                                  .PageSizes(true)
+                                  .ButtonCount(5))
+                              .DataSource(dataSource => dataSource
+                                  .Ajax()
+                                  .PageSize(20)
+                                  .ServerOperation(true).Sort(m => m.Add(model => model.Periodo.FechaInicio).Descending())
+                                  .Read(read => read.Action("GetGruposCalificables", "Notas")))
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

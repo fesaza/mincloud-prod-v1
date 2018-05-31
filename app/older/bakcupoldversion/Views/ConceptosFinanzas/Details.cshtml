@@ -1,0 +1,34 @@
+﻿@model ICC.Mincloud.Modelo.Entities.ConceptosFinanzas
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i class="fa fa-list"></i> Detalles concepto</h2>
+<hr />
+<div class="container">
+    <div class="row">
+        <span class="control-label col-xs-2">Codigo concepto</span>            
+        <span class="control-label col-xs-10">@Html.DisplayFor(model => model.CodigoConcepto)</span>
+    </div>
+    <div class="row">
+        <span class="control-label col-xs-2">Nombre concepto</span>
+        <span class="control-label col-xs-10">@Html.DisplayFor(model => model.NombreConcepto)</span>
+    </div>
+    <div class="row">
+        <span class="control-label col-xs-2">Tipo concepto</span>
+        <span class="control-label col-xs-10">@Html.DisplayFor(model => model.TipoConcepto)</span>
+    </div>
+    <div class="row">
+        <span class="control-label col-xs-2">Iglesia</span>
+        <span class="control-label col-xs-10">@Html.DisplayFor(model => model.Iglesia.Nombre)</span>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-xs-12">
+        <a href="@Url.Action("Edit","ConceptosFinanzas",new { id = Model.ConceptosFinanzasId })" class="btn btn-success"><i class="fa fa-edit"></i> Editar</a>
+        <a href="@Url.Action("Index","ConceptosFinanzas",new { id = Model.ConceptosFinanzasId })" class="btn btn-success"><i class="fa fa-arrow-left"></i> Cancelar</a>
+    </div>
+</div>

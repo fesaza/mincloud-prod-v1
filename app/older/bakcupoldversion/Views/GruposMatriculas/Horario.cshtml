@@ -1,0 +1,136 @@
+﻿@using Kendo.Mvc.UI
+@using Kendo.Mvc.UI.Fluent
+@using ICC.Mincloud.Web.Models
+@using ICC.Mincloud.Modelo.Entities
+@model MatriculaViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.EstudianteId)
+    @Html.HiddenFor(m => m.PeriodoId)
+    @Html.HiddenFor(m => m.MatriculaId)
+    <div class="row">
+        <div class="col-md-2">
+            @(
+        Html.Kendo().TreeView()
+            .Name("treeview-right").Checkboxes(checkboxes => checkboxes
+
+                .CheckChildren(true)
+            ).CheckboxTemplate("#=generateTemplate(data)#").ExpandAll(true).Events(events => events
+                .Check("onCheck")
+            )
+            .BindTo((IEnumerable<Nivel>)ViewBag.inline, (NavigationBindingFactory<TreeViewItem> mappings) =>
+            {
+                mappings.For<Nivel>(binding => binding.ItemDataBound((item, category) =>
+                {
+                    item.Text = category.Nombre;
+                    item.Id = category.NivelId.ToString();
+                })
+                    .Children(category => category.Materias));
+
+                mappings.For<Materia>(binding => binding.ItemDataBound((item, subCategory) =>
+                {
+                    item.Text = subCategory.Nombre;
+                    item.Id = subCategory.MateriaId.ToString();
+                }).Children(category => category.Grupos));
+
+                mappings.For<Grupo>(binding => binding.ItemDataBound((item, subCategory) =>
+                {
+                    item.Text = subCategory.Nombre;
+                    item.Id = subCategory.GrupoId.ToString();
+                }));
+            })
+            )
+        </div>
+        <div class="col-md-10">
+            @(Html.Kendo().Scheduler<GrupoViewModel>()
+    .Name("scheduler").Editable(false)
+    .Date(new DateTime(2016, 05, 01))
+    .StartTime(new DateTime(2016, 05, 1, 6, 00, 00))
+    .EndTime(new DateTime(2016, 05, 7, 23, 00, 00))
+    .Height(600)
+    .Views(views =>
+    {
+        views.WeekView(workWeekView => workWeekView.Selected(true).Title("Semana").WorkDayCommand(false));
+    }).DataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.Grupo.GrupoId);
+        })
+        .Read("ReadHorario", "GruposMatriculas")
+    )
+    .Timezone("Etc/UTC")
+            )
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function generateTemplate(item) {
+
+        var template = "<div>";
+
+        if (item.item.items === undefined) {
+            template = template + "<input name='checkedFiles' type='checkbox' value='" + item.item.id + "'>";
+        }
+
+        template = template + "</div>";
+
+        return template;
+    };
+
+    // function that gathers IDs of checked nodes
+    function checkedNodeIds(nodes, checkedNodes) {
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].checked) {
+                checkedNodes.push(nodes[i].id);
+            }
+
+            if (nodes[i].hasChildren) {
+                checkedNodeIds(nodes[i].children.view(), checkedNodes);
+            }
+        }
+    }
+
+    // show checked node IDs on datasource change
+    function onCheck(a) {
+        debugger;
+        var checkedNodes = [],
+            treeView = $("#treeview").data("kendoTreeView"),
+            message;
+
+        //if (a.sender.dataItem(a.node).checked) {
+        var selected = a.sender.dataItem(a.node).checked;
+        var grupoId = a.sender.dataItem(a.node).id
+        $.get(directory + "GruposMatriculas/GetGrupoById?grupoId=" + grupoId + "&selected=" + selected, function (data) {
+            debugger;
+            var scheduler = $("#scheduler").data("kendoScheduler");
+
+            scheduler.dataSource.read();
+
+
+        });
+
+
+
+        //checkedNodeIds(treeView.dataSource.view(), checkedNodes);
+
+        //if (checkedNodes.length > 0) {
+        //    message = "IDs of checked nodes: " + checkedNodes.join(",");
+        //} else {
+        //    message = "No nodes checked.";
+        //}
+
+        //$("#result").html(message);
+    }
+</script>

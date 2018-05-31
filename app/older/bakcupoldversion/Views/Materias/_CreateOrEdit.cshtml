@@ -1,0 +1,84 @@
+﻿@using Kendo.Mvc.UI
+@model ICC.Mincloud.Modelo.Entities.Materia
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Nombre, new { @class = "control-label" })
+    <div class="controls">
+        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Nombre)
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Programa</label>
+    <div class="controls">
+        @(Html.Kendo().DropDownList()
+                                  .Name("ProgramaId")
+                                  .HtmlAttributes(new { @style = "width:280px" })
+                                  .OptionLabel("Seleccione un programa...")
+                                  .DataTextField("Nombre")
+                                  .DataValueField("ProgramaId")
+                                  .DataSource(source =>
+                                  {
+                                      source.Read(read =>
+                                      {
+                                          read.Action("GetProgramasJson", "Programas");
+                                      });
+                                  })
+        )
+        @Html.ValidationMessageFor(model => model.NivelId)
+    </div>
+</div>
+
+<div class="control-group">
+    @Html.LabelFor(model => model.NivelId, new { @class = "control-label" })
+    <div class="controls">
+        @(Html.Kendo().DropDownList()
+                                  .Name("NivelId")
+                                  .HtmlAttributes(new { @style = "width:280px" })
+                                  .OptionLabel("Seleccione un nivel...")
+                                  .DataTextField("Nombre")
+                                  .DataValueField("NivelId")
+                                  .DataSource(source =>
+                                  {
+                                      source.Read(read =>
+                                      {
+                                          read.Action("GetNivelesByPrograma", "Niveles").Data("filterMunicipios");
+                                      }).ServerFiltering(true);
+                                  })
+                                  .Enable(false)
+                                  .AutoBind(false)
+                                  .CascadeFrom("ProgramaId")
+        )
+        @Html.ValidationMessageFor(model => model.NivelId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.AreaId, new { @class = "control-label" })
+    <div class="controls">
+        @(Html.Kendo().DropDownList()
+                                  .Name("AreaId")
+                                  .HtmlAttributes(new { @style = "width:280px" })
+                                  .OptionLabel("Seleccione una area...")
+                                  .DataTextField("Nombre")
+                                  .DataValueField("AreaId")
+                                  .DataSource(source =>
+                                  {
+                                      source.Read(read =>
+                                      {
+                                          read.Action("GetAreas", "Materias");
+                                      });
+                                  })
+        )
+        @Html.ValidationMessageFor(model => model.AreaId)
+    </div>
+</div>
+<script>
+    function filterMunicipios() {
+        return {
+            ProgramaId: $("#ProgramaId").val()
+        };
+    }
+</script>

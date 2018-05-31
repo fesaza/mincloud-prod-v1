@@ -1,0 +1,37 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Persona
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="page-header">
+    <h1>
+        Personas
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Editar persona
+
+        </small>
+    </h1>
+</div>
+
+
+@using (Html.BeginForm("Edit", "Personas", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        
+
+        @Html.HiddenFor(model => model.PersonaId)
+        @Html.HiddenFor(model => model.FechaRegistro)
+        
+        @Html.Partial("_CreateOrEdit", Model)
+
+        <div class="control-group">
+            <div class="form-controls">
+
+                <input type="submit" value="Guardar" class="btn btn-success" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn" })
+            </div>
+        </div>
+    </fieldset>
+}

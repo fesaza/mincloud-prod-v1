@@ -1,0 +1,79 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+
+@model ICC.Mincloud.Modelo.Entities.Grupo
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Editar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Nota</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.GrupoId)
+
+        <div class="form-group">
+            <div class="col-md-2">Grupo</div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-md-offset-1 col-md-11">
+                @(Html.Kendo().Grid<Estudiante>().Mobile()
+                              .Name("grdFiltros")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(c => c.Persona.NombreCompleto).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Estudiante");
+                                  columns.Bound(c => c.Nota1).Title("20%");
+                                  columns.Bound(c => c.Nota2).Title("20%");
+                                  columns.Bound(c => c.Nota3).Title("20%");
+                                  columns.Bound(c => c.Nota4).Title("20%");
+                                  columns.Bound(c => c.Nota5).Title("20%");
+                                  columns.Bound(c => c.Total).Title("100%");
+                              })
+                              .Editable(editable => editable.Mode(GridEditMode.InCell))
+                              .ColumnMenu().Groupable(g => g.Enabled(false))
+                              .Sortable()
+                              .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                              .Pageable(pageable => pageable
+                                  .Refresh(true)
+                                  .PageSizes(true)
+                                  .ButtonCount(5))
+                              .DataSource(dataSource => dataSource
+                                  .Ajax().Model(model =>
+            {
+                model.Id(p => p.EstudianteId);
+            })
+                                  .PageSize(20)
+                                  .ServerOperation(true)
+                                  .Read(read => read.Action("GetEstudiantesByGrupo", "Notas", new { grupoId = Model.GrupoId })))
+                )
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    var grid = $("#grid").data("kendoGrid");
+    debugger;
+</script>

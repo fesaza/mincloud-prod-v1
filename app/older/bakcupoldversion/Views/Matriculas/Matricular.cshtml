@@ -1,0 +1,86 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@using ICC.Mincloud.Modelo.Util
+@model ICC.Mincloud.Modelo.Entities.Programa
+
+@{
+    ViewBag.Title = "Matricular estudiantes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h1>
+        Matriculas
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Gestionar matriculas
+
+        </small>
+    </h1>
+</div>
+
+<div class="form-horizontal">
+
+    
+    @Html.HiddenFor(model => model.ProgramaId)
+    @*@Html.HiddenFor(model => model.FechaInicio)
+        @Html.HiddenFor(model => model.Estado)*@
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Programa</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <hr />
+        <label class="control-label">Estudiantes</label>
+        @Html.ActionLink("Matricular", "Create", new { programaId = Model.ProgramaId }, new { @class = "btn btn-primary pull-right" })
+        <div style="padding-top:25px;">
+            @*Grid con listado de estudiantes*@
+            @(Html.Kendo().Grid<Matricula>().Mobile()
+                      .Name("grdFiltros")
+                      .Columns(columns =>
+                      {
+                          columns.Bound(c => c.ProgramaId).ClientTemplate(
+                                                                         "<div class='btn-group'>" +
+                                                                         "<a href='" + @Url.Action("Delete", new { id = "#: MatriculaId#" }) + "' class='btn btn-danger btn-xs'><i class='glyphicon glyphicon-trash'></i></a>" +
+                                                                         "</div>").Width(50).Title("").Filterable(false);
+                          columns.Bound(c => c.Estudiante.Persona.NombreCompletoSimple).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                          columns.Bound(c => c.Periodo.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Periodo inicio");
+                          columns.Bound(c => c.Estado).Filterable(ftb => ftb.Cell(cell => cell.Operator("startswith")));
+                          columns.Bound(c => c.FechaInicio).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Fecha matricula").Format("{0:dd/MM/yyyy}");
+                          columns.Bound(c => c.FechaFin).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Title("Fecha finalización").Format("{0:dd/MM/yyyy}");
+                      })
+                      .ColumnMenu().Groupable(g => g.Enabled(false))
+                      .Sortable()
+                      .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                      .Pageable(pageable => pageable
+                          .Refresh(true)
+                          .PageSizes(true)
+                          .ButtonCount(5))
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .PageSize(20)
+                          .ServerOperation(true)
+                          
+                        .Read(read => read.Action("GetMatriculas", "Matriculas").Data("filterMunicipios")))
+            )
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @*<input type="submit" value="Guardar" class="btn btn-success" />*@
+            @Html.ActionLink("Cancelar", "Index", "Programas", new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+<script>
+    function filterMunicipios() {
+        return {
+            programaId: $("#ProgramaId").val()
+        };
+    }
+</script>

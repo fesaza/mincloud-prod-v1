@@ -1,0 +1,35 @@
+﻿@model ICC.Mincloud.Modelo.Entities.GruposMatricula
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GruposMatricula</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Grupo.GrupoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Grupo.GrupoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Matricula.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Matricula.Estado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MateriasMatriculaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

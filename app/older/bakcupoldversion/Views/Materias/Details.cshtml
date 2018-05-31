@@ -1,0 +1,43 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Materia
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Materia</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Area.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Area.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nivel.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nivel.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MateriaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i class="fa fa-money"></i> Movimientos finanzas</h2>
+<hr />
+<div class="row">
+    <div class="col-xs-12">
+        <h4 class="fecha-movimiento-ro"><i class="fa fa-calendar"></i></h4>
+    </div>
+    <div class="col-xs-12">
+        <textarea class="form-control" style="resize:none;" rows="3" id="descripcion-movimiento"></textarea>
+    </div>
+    <hr />
+    <div class=" col-xs-12 btn-group" style="margin-top:10px;">
+        <button id="agregar-movimiento" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i> Agregar</button>
+    </div>
+    <div class="col-xs-12" style="margin-top:10px;">
+        <div id="detalle-movimiento"></div>
+    </div>
+</div>
+
+@*Modals*@
+<div id="modal-agregar-movimiento" class="form-horizontal">
+
+    <div class="form-group">
+        <label class="control-label col-xs-2">Concepto</label>
+        <div class="col-xs-8">
+            <input id="conceptos-finanzas" style="width: 100%" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-2">Persona</label>
+        <div class="col-xs-8">
+            <input id="persona-movimiento" style="width: 100%" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-2">Persona</label>
+        <div class="col-xs-8">
+            <input id="valor-movimiento" type="number" value="0" min="0" max="999999999" style="width: 100%;" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-11" id="validation-message-value" style="display:none;">
+            <span class="text-danger"><i class="fa fa-info-circle"></i> El valor del movimiento debe ser mayor a cero</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button id="cancelar-guardar" class="btn btn-sm"><i class="fa fa-arrow-left"></i> Cancelar</button>
+            <button id="guardar-detalle" class="btn btn-sm btn-success"><i class="fa fa-floppy-o"></i> Agregar</button>
+        </div>
+    </div>
+
+</div>
+<div id="select-date">
+    <div class="form-group">
+        <label class="control-label col-xs-2" for="#fecha-movimiento">Fecha</label>
+        <div class="col-xs-4">
+            <input id="fecha-movimiento" style="width:100%;" />
+        </div>
+        <div class="col-xs-2">
+            <button id="select-movement-date" class="btn btn-sm btn-success"><i class="fa fa-arrow-circle-o-right"></i> Ingresar</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-11" id="validation-message" style="display:none;">
+            <span class="text-danger"><i class="fa fa-info-circle"></i> Por favor seleccione la fecha de movimiento</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.culture("es-co");
+    var selectedDated = new Date(), detalleMovimiento = [];
+
+    //function
+    function editarDetalle(e, q) {
+    }
+
+    $(document).ready(function () {
+        $("#agregar-movimiento").click(function (e) {
+            var kendoMov = $("#modal-agregar-movimiento").data("kendoWindow");
+            //kendoMov.setOptions({
+            //    width: "74%"
+            //});
+            kendoMov.open();
+        });
+
+        $("#cancelar-guardar").click(function (e) {
+            $("#modal-agregar-movimiento").data("kendoWindow").close();
+        });
+
+        $("#guardar-detalle").click(function (e) {
+            if ($("#valor-movimiento").val() <= 0) {
+                $("#validation-message-value").fadeIn().delay(3000).fadeOut();
+                return;
+            }
+
+            detalleMovimiento.push({
+                ValorMovimiento: $("#valor-movimiento").val(),
+                Identificacion: $("#persona-movimiento").val(),
+                NombrePersona: $("#persona-movimiento").data("kendoDropDownList").text(),
+                ConceptoId: $("#conceptos-finanzas").val(),
+                NombreConcepto: $("#conceptos-finanzas").data("kendoDropDownList").text(),
+                FechaMovimiento: selectedDated.toISOString()
+            });
+            $("#modal-agregar-movimiento").data("kendoWindow").close();
+            $('#detalle-movimiento').data('kendoGrid').dataSource.read();
+            $('#detalle-movimiento').data('kendoGrid').refresh();
+        });
+
+        $("#select-movement-date").click(function (e) {
+            if ($("#fecha-movimiento").val() == "") {
+                $("#validation-message").fadeIn().delay(2000).fadeOut();
+                e.preventDefault();
+                return;
+            }
+            selectedDated = $("#fecha-movimiento").data("kendoDatePicker").value();
+            $(".fecha-movimiento-ro").html('<i class="fa fa-calendar"></i> ' + selectedDated.toDateString());
+            $("#select-date").data("kendoWindow").close();
+        });
+
+        //Jquery instances
+        $("#detalle-movimiento").kendoGrid({
+            dataSource: {
+                data: detalleMovimiento,
+                schema: {
+                    model: {
+                        fields: {
+                            NombreConcepto: { type: "string" },
+                            Identificacion: { type: "string" },
+                            NombrePersona: { type: "string" },
+                            ValorMovimiento: { type: "number" }
+                        }
+                    }
+                },
+                pageSize: 20
+            },
+            sortable: true,
+            filterable: {
+                mode: "row"
+            },
+            pageable: {
+                input: true,
+                numeric: false
+            },
+            columns: [
+                { field: "NombreConcepto", title: "Concepto", width: "130px" },
+                { field: "Identificacion", title: "Identificación", width: "130px" },
+                { field: "NombrePersona", title: "Tercero", width: "130px" },
+                { field: "ValorMovimiento", title: "Valor", format: "{0:c}", width: "130px" }]
+        });
+
+        $("#valor-movimiento").kendoNumericTextBox({
+            format: "c",
+            decimals: 0
+        });
+        $("#persona-movimiento").kendoDropDownList({
+            filter: "contains",
+            dataTextField: "NombreCompleto",
+            dataValueField: "Identificacion",
+            dataSource: {
+                transport: {
+                    read: {
+                        dataType: "json",
+                        url: "./MovimientosFinanzas/getPersonas",
+                    }
+                }
+            }
+        });
+        $("#conceptos-finanzas").kendoDropDownList({
+            dataTextField: "NombreConcepto",
+            dataValueField: "ConceptosFinanzasId",
+            dataSource: {
+                transport: {
+                    read: {
+                        dataType: "json",
+                        url: "./MovimientosFinanzas/getConceptosFinanzas",
+                    }
+                }
+            }
+        });
+
+        $("#modal-agregar-movimiento").kendoWindow({
+            title: "Agregar detalle",
+            modal: true,
+            width: "500px",
+            resizable: false,
+            movable: false,
+            visible: false
+        }).data("kendoWindow").center();
+
+        $("#select-date").kendoWindow({
+            title: "Fecha del movimiento",
+            modal: true,
+            width: "350px",
+            resizable: false,
+            movable: false,
+            actions: []
+        }).data("kendoWindow").center().open();
+
+        $("#fecha-movimiento").kendoDatePicker();
+    });
+</script>

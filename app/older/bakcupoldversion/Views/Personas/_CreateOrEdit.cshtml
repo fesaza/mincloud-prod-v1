@@ -1,0 +1,510 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@using ICC.Mincloud.Modelo.Util
+@using Microsoft.Ajax.Utilities
+@model Persona
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="widget-box widget-color-green">
+            <div class="widget-header widget-header-small">
+                <h6 class="widget-title">Datos básicos</h6>
+                <div class="widget-toolbar">
+                    <a data-action="fullscreen" class="orange2" href="#"><i class="ace-icon fa fa-expand"></i></a>
+                    <a data-action="collapse" href="#"><i class="ace-icon fa fa-chevron-up"></i></a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                @{
+                    Html.RenderPartial("_InfoBasicaForm");
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="widget-box widget-color-green">
+            <div class="widget-header widget-header-small">
+                <h6 class="widget-title">Redes sociales</h6>
+                <div class="widget-toolbar">
+                    <a data-action="fullscreen" class="orange2" href="#"><i class="ace-icon fa fa-expand"></i></a>
+                    <a data-action="collapse" href="#"><i class="ace-icon fa fa-chevron-up"></i></a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div>
+                        <div class="">
+                            <a class="" target="_blank" href='@string.Format("https://www.facebook.com/profile.php?id={0}",Model.Facebook)'><i class="fa fa-facebook"></i></a>
+                            @Html.LabelFor(model => model.Facebook, new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Facebook, new { htmlAttributes = new { @class = "width-95" } })
+                            @Html.ValidationMessageFor(model => model.Facebook)
+                        </div>
+                    </div>
+                    <div>
+                        <div class="">
+                            <a class="" target="_blank" href='@string.Format("https://instagram.com/{0}/",Model.Instagram)'><i class="fa fa-instagram"></i></a>
+                            @Html.LabelFor(model => model.Instagram, new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Instagram, new { htmlAttributes = new { @class = "width-95" } })
+                            @Html.ValidationMessageFor(model => model.Instagram)
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="">
+                            <a class="" target="_blank" href='@string.Format("https://twitter.com/{0}",Model.Twitter)'><i class="fa fa-twitter"></i></a>
+                            @Html.LabelFor(model => model.Twitter, new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Twitter, new { htmlAttributes = new { @class = "width-95" } })
+                            @Html.ValidationMessageFor(model => model.Twitter)
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="widget-box widget-color-green">
+            <div class="widget-header widget-header-small">
+                <h6 class="widget-title">Información adicional</h6>
+                <div class="widget-toolbar">
+                    <a data-action="fullscreen" class="orange2" href="#"><i class="ace-icon fa fa-expand"></i></a>
+                    <a data-action="collapse" href="#"><i class="ace-icon fa fa-chevron-up"></i></a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div>
+                        <div class="">
+                            @Html.LabelFor(model => model.OcupacionId, new { @class = "control-label" })
+                            <div>
+                                @(Html.Kendo().DropDownList()
+                                  .Name("OcupacionId")
+                                  .HtmlAttributes(new { @style = "width:100%" })
+                                  .OptionLabel("Seleccione una ocupación...").Filter("contains")
+                                  .DataTextField("Nombre")
+                                  .DataValueField("OcupacionId")
+                                  .DataSource(source =>
+                                  {
+                                      source.Read(read =>
+                                      {
+                                          read.Action("GetOcupacionesJson", "Ocupaciones");
+                                      });
+                                  })
+                                )
+                                @Html.ValidationMessageFor(model => model.OcupacionId)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="">
+                            @Html.LabelFor(model => model.InvitadoPor, new { @class = "control-label" })
+                            <div>
+
+                                @(Html.Kendo().AutoComplete()
+                                  .Name("InvitadoPor").Suggest(true)
+                                  .HtmlAttributes(new { @style = "width:100%" }).Filter("contains")
+                                  .Placeholder("Invitado por...")
+                                  .DataTextField("NombreCompletoSimple")
+                                  .DataSource(source =>
+                                  {
+                                      source.Read(read =>
+                                      {
+                                          read.Action("GetPersonasJson", "Personas");
+                                      });
+                                  })
+                                )
+                                @Html.ValidationMessageFor(model => model.PersonaInvitaId)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="">
+                            @Html.LabelFor(model => model.TipoReunionPrimeraVezId, new { @class = "control-label" })
+                            <div>
+
+                                @(Html.Kendo().DropDownList()
+                                  .Name("TipoReunionPrimeraVezId")
+                                  .HtmlAttributes(new { @style = "width:100%" })
+                                  .OptionLabel("Seleccione una reunión...")
+                                  .DataTextField("Nombre")
+                                  .DataValueField("TipoReunionId")
+                                  .DataSource(source =>
+                                  {
+                                      source.Read(read =>
+                                      {
+                                          read.Action("GetTiposReunionesJson", "TiposReuniones");
+                                      });
+                                  })
+                                )
+                                @Html.ValidationMessageFor(model => model.TipoReunionPrimeraVezId)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-box widget-color-green" id="panelSeguimiento">
+            <div class="widget-header widget-header-small">
+                <h6 class="widget-title">Seguimientos</h6>
+                <div class="widget-toolbar">
+                    <a data-action="fullscreen" class="orange2" href="#"><i class="ace-icon fa fa-expand"></i></a>
+                    <a data-action="collapse" href="#"><i class="ace-icon fa fa-chevron-up"></i></a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div class="row">
+                        <input type="button" onclick="OpenPopUpNew()" class="btn btn-info pull-right" value="Agregar">
+                    </div>
+
+
+
+
+                    <div class="row">
+                        @(Html.Kendo().Grid<SeguimientosPersona>()
+              .Name("grdSeguimientosPersonas")
+              .Columns(columns =>
+              {
+                  columns.Bound(c => c.PersonaId).ClientTemplate("<div class='btn-group'>" +
+                                                                 " <a onclick='OpenPopUpEdit(this)' class='btn btn-success' ><i class='fa fa-pencil'></i></a>" +
+                                                                 "</div>" +
+                                                                 "<div class='btn-group'>" +
+                                                                 "<a onclick='eliminarSeguimientoConfirm(this)' class='btn btn-danger' ><i class='fa fa-trash'></i></a>" +
+                                                                 "</div>").Width(120).Title("Acciones").Filterable(false);
+                  columns.Bound(c => c.Seguimiento.Nombre).Title("Seguimiento");
+                  columns.Bound(c => c.Encargado.Nombre).Title("Encargado");
+                  columns.Bound(c => c.Estado);
+                  columns.Bound(c => c.FechaSeguimiento).Title("Fecha").Format("{0:dd-MMM-yyyy}").Width(90);
+                  columns.Bound(c => c.Observaciones).Title("Observación");
+              })
+              .Scrollable().ColumnMenu().Groupable(g => g.Enabled(false))
+              .Sortable()
+              .Filterable()
+              .Pageable(pageable => pageable
+                  .Refresh(true)
+                  .PageSizes(true)
+                  .ButtonCount(5))
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Read(read => read.Action("GetSeguimientosByPersona", "Personas", new { personaId = Model.PersonaId })))
+                        )
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-box widget-color-green" id="panelMinisterios">
+            <div class="widget-header widget-header-small">
+                <h6 class="widget-title">Ministerios</h6>
+                <div class="widget-toolbar">
+                    <a data-action="fullscreen" class="orange2" href="#"><i class="ace-icon fa fa-expand"></i></a>
+                    <a data-action="collapse" href="#"><i class="ace-icon fa fa-chevron-up"></i></a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div class="row">
+                        <input type="button" onclick="OpenPopUpNewMinisterio()" class="btn btn-info pull-right" value="Agregar">
+                    </div>
+
+                    <div class="row">
+                        @(Html.Kendo().Grid<LideresMinisterios>()
+                                      .Name("grdMinisteriosPersonas")
+                                      .Columns(columns =>
+                                      {
+                                          columns.Bound(c => c.EncargadosMinisterioId).ClientTemplate("<div class='btn-group'>" +
+                                               " <a onclick='OpenPopUpEditMinisterio(this)' class='btn btn-success' ><i class='fa fa-pencil'></i></a>" +
+                                                                 "</div>" +
+                                                                 "<div class='btn-group'>" +
+                                                                 "<a onclick='eliminarSeguimientoConfirmMinisterio(this)' class='btn btn-danger' ><i class='fa fa-trash'></i></a>" +
+
+                                                               "</div>").Width(120).Title("Acciones").Filterable(false);
+                                          columns.Bound(c => c.Ministerio.Nombre).Title("Ministerio");
+                                          columns.Bound(c => c.LiderGeneral).Title("Lider general?").ClientTemplate("<input type='checkbox' #= LiderGeneral ? 'checked= checked' : '' # disabled='disabled' ></input>");
+                                      })
+                                      .Scrollable()
+                                      .Sortable()
+                                      .Filterable()
+                                      .Pageable(pageable => pageable
+                                          .Refresh(true)
+                                          .PageSizes(true)
+                                          .ButtonCount(5))
+                                      .DataSource(dataSource => dataSource
+                                          .Ajax()
+                                          .Read(read => read.Action("GetMinisteriosByPersona", "Personas", new { personaId = Model.PersonaId })))
+                        )
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@(Html.Kendo().Window()
+              .Name("window") //The name of the window is mandatory. It specifies the "id" attribute of the widget.
+              .Title("Seguimiento") //set the title of the window
+              .Draggable(true) //Enable dragging of the window
+              .Visible(false) //Enable resizing of the window
+              .Iframe(true)
+              .LoadContentFrom("AgregarSeguimientos", "Personas")
+              .Events(events => events.Close("CierreWndwModal")).Scrollable(false).Width(600)
+)
+@(Html.Kendo().Window()
+              .Name("windowEdit") //The name of the window is mandatory. It specifies the "id" attribute of the widget.
+              .Title("Editar Seguimiento") //set the title of the window
+              .Draggable(true) //Enable dragging of the window
+              .Visible(false) //Enable resizing of the window
+              .Iframe(true)
+              .Events(events => events.Close("CierreWndwModal")).Scrollable(false).Width(600)
+)
+
+
+@(Html.Kendo().Window()
+              .Name("windowMinisterio") //The name of the window is mandatory. It specifies the "id" attribute of the widget.
+              .Title("Ministerio") //set the title of the window
+              .Draggable(true) //Enable dragging of the window
+              .Visible(false) //Enable resizing of the window
+              .Iframe(true)
+              .LoadContentFrom("AgregarMinisterio", "Personas")
+              .Events(events => events.Close("CierreWndwModalMinisterio")).Scrollable(false).Width(600)
+)
+@(Html.Kendo().Window()
+              .Name("windowEditMinisterio") //The name of the window is mandatory. It specifies the "id" attribute of the widget.
+              .Title("Editar ministerio") //set the title of the window
+              .Draggable(true) //Enable dragging of the window
+              .Visible(false) //Enable resizing of the window
+              .Iframe(true)
+              .Events(events => events.Close("CierreWndwModalMinisterio")).Scrollable(false).Width(600)
+)
+
+<script>
+
+    $(document).ready(function () {
+        var options = {
+            onConfirm: eliminarSeguimientoConfirm
+        };
+        //$('[data-toggle="confirmation"]').confirmation(options);
+        changeCheckSeguimiento();
+        changeCheckBautizado();
+        configPerfil($("#Perfil").val());
+    });
+
+    function changePerfil() {
+        configPerfil(this.value());
+    }
+
+    function configPerfil(perfil) {
+        var seguimientos = $("#panelSeguimiento");
+        var ministerios = $("#panelMinisterios");
+
+        //solamente lideres pueden trabajar ministerios
+        if (perfil == "Lider") {
+            ministerios.show();
+        } else {
+            ministerios.hide();
+        }
+
+        if (perfil == "Nuevo") {
+            seguimientos.show();
+        }
+    }
+
+    function changeCheckSeguimiento() {
+      
+        if ($("#EnSeguimientoStr").is(":checked")) {
+            $("#panelSeguimiento").show();
+        } else {
+            $("#panelSeguimiento").hide();
+        }
+    }
+
+    function changeCheckBautizado() {
+        if ($("#BautizadoStr").is(":checked")) {
+            $("#fechaBautismoDiv").show();
+        } else {
+            $("#fechaBautismoDiv").hide();
+        }
+    }
+
+    function onChangeFechaNacimiento() {
+      
+        //kendoConsole.log("Change :: " + kendo.toString(this.value(), 'd'));
+        var fechaNac = new Date(this.value);
+        var edad = new Date().getYear() - fechaNac.getYear();
+        if (fechaNac.getMonth() > new Date().getMonth()) {
+            edad = edad - 1;
+        }
+
+        $('#Edad').val(edad);
+
+        if (edad <= 15) {
+            $('#Clasificacion').data("kendoDropDownList").value("Adolescente");
+        } else {
+            if (15 < edad && edad <= 28) {
+                $('#Clasificacion').data("kendoDropDownList").value("Joven");
+            } else {
+                if (28 < edad && edad <= 50) {
+                    $('#Clasificacion').data("kendoDropDownList").value("Adulto");
+                } else {
+                    if (edad > 50) {
+                        $('#Clasificacion').data("kendoDropDownList").value("AdultoMayor");
+                    }
+                }
+            }
+        }
+    }
+
+    $('#FechaNacimiento').change(onChangeFechaNacimiento);
+
+    function filterMunicipios() {
+        return {
+            DepartamentoId: $("#DepartamentoId").val()
+        };
+    }
+
+    function filterBarrios() {
+        return {
+            text: $("#Barrio").val()
+        };
+    }
+
+    function CierreWndwModal(e) {
+        refreshSeguimientos();
+    }
+
+    function CierreWndwModalMinisterio() {
+        $('#grdMinisteriosPersonas').data('kendoGrid').dataSource.read();
+    }
+
+    function refreshSeguimientos() {
+        $('#grdSeguimientosPersonas').data('kendoGrid').dataSource.read();
+    }
+
+    function OpenPopUpNewMinisterio() {
+        var window = $("#windowMinisterio").data("kendoWindow");
+        window.setOptions({
+            width: "74%",
+            height: "280px"
+        });
+        window.center();
+        window.open();
+    }
+
+    function OpenPopUpEditMinisterio(sender) {
+        var window = $("#windowEditMinisterio").data("kendoWindow");
+        window.setOptions({
+            width: "74%",
+            height: "280px"
+        });
+        window.refresh({
+            url: "EditarMinisterio?ministerioPersonaId=" + getMinisterioPersonaId(sender)
+            //data: { userId: 42 }
+        });
+        window.center();
+        window.open();
+    }
+
+    function OpenPopUpNew() {
+        var window = $("#window").data("kendoWindow");
+        window.setOptions({
+            width: "74%",
+            height: "467px"
+        });
+        window.center();
+        window.open();
+    }
+
+    function OpenPopUpEdit(sender) {
+        var window = $("#windowEdit").data("kendoWindow");
+        window.setOptions({
+            width: "74%",
+            height: "467px"
+        });
+        window.refresh({
+            url: "EditarSeguimiento?seguimientoPersonaId=" + getSeguimientoPersonaId(sender)
+            //data: { userId: 42 }
+        });
+        window.center();
+        window.open();
+    }
+
+    function eliminarSeguimiento(sender) {
+        $(sender).confirmation({
+            onConfirm: eliminarSeguimientoConfirm(),
+            singleton: false
+        });
+
+    }
+
+    function eliminarSeguimientoConfirmMinisterio(sender) {
+
+        var parameters = getMinisterioPersonaId(sender);
+        $.ajax({
+            url: 'EliminarMinisterio?ministerioPersonaId=' + parameters,
+            type: 'POST',
+            contentType: 'application/json;',
+            success: function (result) {
+                //$('#grdSeguimientosPersonas').data('kendoGrid').dataSource.read();
+                //refreshSeguimientos();
+                CierreWndwModalMinisterio();
+            }
+        });
+    }
+
+
+    function eliminarSeguimientoConfirm(sender) {
+
+        var parameters = getSeguimientoPersonaId(sender);
+        $.ajax({
+            url: 'EliminarSeguimiento?seguimientoPersonaId=' + parameters,
+            type: 'POST',
+            contentType: 'application/json;',
+            success: function (result) {
+                //$('#grdSeguimientosPersonas').data('kendoGrid').dataSource.read();
+                refreshSeguimientos();
+            }
+        });
+    }
+
+    function getSeguimientoPersonaId(sender) {
+        var t = sender.closest('tr');
+        var seguimientoPersonaId = $(t).attr('data-uid');
+        var data = $("#grdSeguimientosPersonas").data("kendoGrid").dataSource.view();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].uid == seguimientoPersonaId) {
+                return data[i].get("TempId");
+            }
+        }
+    }
+
+    function getMinisterioPersonaId(sender) {
+        var t = sender.closest('tr');
+        var seguimientoPersonaId = $(t).attr('data-uid');
+        var data = $("#grdMinisteriosPersonas").data("kendoGrid").dataSource.view();
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].uid == seguimientoPersonaId) {
+                return data[i].get("TempId");
+            }
+        }
+    }
+</script>

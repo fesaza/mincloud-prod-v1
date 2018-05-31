@@ -1,0 +1,44 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Prerrequisito
+@{
+	ViewBag.Title = "Delete";
+}
+
+<ul class="breadcrumb">
+	<li><a href="\">Tables</a> <span class="divider">/</span></li>
+	<li>@Html.ActionLink("Prerrequisitos", "Index", "Prerrequisitos") <span class="divider">/</span></li>
+	<li class="active">Delete</li>
+</ul>
+<div class="row">
+	<div class="span4">
+		<table class="table table-bordered table-striped table-condensed table-hover pull-left">
+			<tr>
+				<td>@Html.LabelFor(x => x.MateriaId)</td>
+				<td>@Model.MateriaId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.MateriaPrerrequisitoId)</td>
+				<td>@Model.MateriaPrerrequisitoId</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Materia_MateriaPrerrequisitoId)</td>
+		<td>
+			<a href="@Url.Action("Details", "Materias", new { MateriaId = Model.MateriaPrerrequisitoId })"><small>View</small></a>
+		</td>
+			</tr>
+			<tr>
+				<td>@Html.LabelFor(x => x.Materia_MateriaId)</td>
+		<td>
+			<a href="@Url.Action("Details", "Materias", new { MateriaId = Model.MateriaId })"><small>View</small></a>
+		</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+@using (Html.BeginForm()) {
+		<input type="submit" value="Delete" class="btn btn-danger" />
+		@Html.ActionLink("Cancel", "Index", null, new { @class = "btn" })
+}
+	</div>
+</div>

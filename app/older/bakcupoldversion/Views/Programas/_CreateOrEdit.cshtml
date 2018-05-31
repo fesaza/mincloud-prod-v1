@@ -1,0 +1,197 @@
+﻿@using Kendo.Mvc.UI
+@model ICC.Mincloud.Modelo.Entities.Programa
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/toastr.css" rel="stylesheet" />
+<style>
+    .colStyle {
+        margin-right: 10px;
+        width: 19%;
+        padding-top: 10px;
+        /*margin-top: 20px;*/
+        border: 1px solid orange;
+        min-height: 500px;
+    }
+
+    .busyIndicator .alert {
+        left: 40%;
+        top: 5%;
+        position: fixed;
+        z-index: 1050;
+        width: 400px;
+        height: 40px;
+        padding-left: 10px;
+        padding-top: 10px;
+        background-color: lightgreen;
+        color: black;
+        border-color: transparent;
+    }
+
+    .busyIndicator .backgroundMask {
+        top: 0;
+        left: 0;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        background: black;
+        z-index: 1049;
+    }
+
+    .over {
+        background-color: #fff;
+        border: 2px dashed red;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        @Html.LabelFor(model => model.Nombre, new { @class = "control-label" })
+        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "width-95" } })
+        @Html.ValidationMessageFor(model => model.Nombre)
+    </div>
+    <div class="col-md-6 control-group">
+        @Html.LabelFor(model => model.CoordinadorId, new { @class = "control-label" })
+        <div class="controls">
+
+            @(Html.Kendo().DropDownList()
+                                  .Name("CoordinadorId")
+                                  .HtmlAttributes(new { @style = "width:95%" })
+                                  .OptionLabel("Seleccione un coordinador...")
+                                  .DataTextField("Persona.Nombre")
+                                  .DataValueField("CoordinadorId")
+                                  .DataSource(source =>
+                                  {
+                                      source.Read(read =>
+                                      {
+                                          read.Action("GetCoordinadores", "Programas");
+                                      });
+                                  })
+            )
+            @Html.ValidationMessageFor(model => model.CoordinadorId)
+        </div>
+    </div>
+</div>
+<hr />
+<div class="control-group" ng-app="kanbanBoardApp">
+    <div>
+
+        <div class="row" ng-controller="boardCtrl">
+
+            <div ng-include="'/js/Capacitaciones/busyModal.html'" ng-show="isLoading"></div>
+
+            <div class="col-lg-3 panel panel-primary colStyle" id="{{col.Id}}" kanban-board-drop="over"
+                 ng-repeat="col in columns">
+                <div class="" style="margin-bottom: 10px;">
+                    <div ng-show="!col.editingNivel">
+                        <a class="btn btn-info width-100" ng-click="editNivel(col)">
+                            <i class='ace-icon fa fa-level-up'></i> {{col.Name}}
+                        </a>
+                    </div>
+                    <div ng-show="col.editingNivel" class="row">
+                        <input ng-model="col.Name" placeholder="Nombre del nivel" ng-blur="endEditNivel(col)" class="width-85" type="text" />
+                        <a href="#" ng-click="removeNivel($event,col)" class="btn btn-danger btn-xs" role="button"><i class="ace-icon fa fa-trash"></i></a>
+                        @*<button class="btn btn-success" ng-click="endEditNivel(col)"><i class='ace-icon fa fa-check'></i> </button>*@
+                    </div>
+                </div>
+                <button class="btn btn-success width-100" ng-click="addMateria($event,col)" id="btnAddMateria"><i class='ace-icon fa fa-plus'></i> Agregar materia </button>
+                <hr />
+                <div class="thumbnail" draggable="true" kanban-board-dragg="task"
+                     ng-repeat="task in col.Tasks" style="margin-bottom: 10px;">
+                    <div class="caption">
+                        <div class="">
+                            <h5><strong>{{task.Name}}</strong></h5>
+                            <p>{{task.Description}}</p>
+                        </div>
+                        <div class="">
+                            <p>
+                                <a href="#" ng-click="editMateria($event,col,task)" class="btn btn-primary btn-xs" role="button"><i class="ace-icon fa fa-pencil"></i></a>
+                                <a href="#" ng-click="removeMateria($event,task)" class="btn btn-danger btn-xs" role="button"><i class="ace-icon fa fa-trash"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <button style="margin-top: 22px;" class="btn btn-warning" ng-click="addNivel($event)"><i class='ace-icon fa fa-plus'></i> Nuevo nivel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="modalAddNivel.html">
+        <form  name="form" ng-submit="ok()" role="form">
+            <div class="modal-header">
+                <h3 class="modal-title">Agregar nivel</h3>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="txtNombreNivel">Nombre</label>
+                    <div class="col-md-10">
+                        <input class="form-control" required placeholder="Nombre" id="txtNombreNivel" name="txtNombreNivel" type="text" ng-model="nivel.Nombre" />
+                        <span ng-show="form.txtNombreNivel.$dirty && form.txtNombreNivel.$error.required" class="help-block">El nombre es requerido</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" ng-disabled="form.$invalid">Aceptar</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="modalAddMateria.html">
+        <form name="form" ng-submit="ok()" role="form">
+            <div class="modal-header">
+                <h3 class="modal-title">Propiedades de Materia</h3>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Nombre">Nombre</label>
+                    <div class="col-md-10">
+                        <input placeholder="Nombre" name="txtNombreMateria" id="txtNombreMateria" required class="form-control" type="text" ng-model="materia.Name" />
+                        <span ng-show="form.txtNombreMateria.$dirty && form.txtNombreMateria.$error.required" class="help-block">El nombre es requerido</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Descripcion">Descipción</label>
+                    <div class="col-md-10">
+                        <input placeholder="Descripción" class="form-control" type="text" ng-model="materia.Description" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" ng-disabled="form.$invalid">Aceptar</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/ng-template" id="modalRemoveMateria.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Eliminar materia</h3>
+        </div>
+        <div class="modal-body">
+            <p>Esta seguro que desea eliminar la materia {{materia}}?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" type="button" ng-click="ok()">Si</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="modalRemoveNivel.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Eliminar materia</h3>
+        </div>
+        <div class="modal-body">
+            <p>Esta seguro que desea eliminar el nivel {{nivel}}?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" type="button" ng-click="ok()">Si</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
+        </div>
+    </script>
+
+</div>
+@Scripts.Render("~/js/capacitaciones")

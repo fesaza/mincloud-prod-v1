@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ICC.Mincloud.Modelo.Entities.Matricula>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Estudiante.EstudianteId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Programa.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estudiante.EstudianteId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Programa.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaFin)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MatriculaId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MatriculaId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MatriculaId })
+        </td>
+    </tr>
+}
+
+</table>

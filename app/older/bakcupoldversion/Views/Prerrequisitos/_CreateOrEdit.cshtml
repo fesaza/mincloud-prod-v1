@@ -1,0 +1,32 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Prerrequisito
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+	@Html.LabelFor(model => model.MateriaId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.MateriaId)
+		@Html.ValidationMessageFor(model => model.MateriaId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.MateriaPrerrequisitoId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.MateriaPrerrequisitoId)
+		@Html.ValidationMessageFor(model => model.MateriaPrerrequisitoId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Materia_MateriaPrerrequisitoId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.DropDownListFor(model => model.MateriaPrerrequisitoId, (IEnumerable<SelectListItem>)ViewBag.Materia_MateriaPrerrequisitoId)
+		@Html.ValidationMessageFor(model => model.Materia_MateriaPrerrequisitoId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Materia_MateriaId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.DropDownListFor(model => model.MateriaId, (IEnumerable<SelectListItem>)ViewBag.Materia_MateriaId)
+		@Html.ValidationMessageFor(model => model.Materia_MateriaId)
+	</div>
+</div>

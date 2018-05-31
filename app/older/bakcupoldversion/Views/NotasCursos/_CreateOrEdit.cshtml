@@ -1,0 +1,46 @@
+﻿@model ICC.Mincloud.Modelo.Entities.NotasCurso
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<div class="control-group">
+	@Html.LabelFor(model => model.PeriodoId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.PeriodoId)
+		@Html.ValidationMessageFor(model => model.PeriodoId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.MateriaId, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.MateriaId)
+		@Html.ValidationMessageFor(model => model.MateriaId)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Valor, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.Valor)
+		@Html.ValidationMessageFor(model => model.Valor)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Porcetaje, new { @class = "control-label" })
+	<div class="controls">
+		@Html.EditorFor(model => model.Porcetaje)
+		@Html.ValidationMessageFor(model => model.Porcetaje)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Materia, new { @class = "control-label" })
+	<div class="controls">
+		@Html.DropDownListFor(model => model.MateriaId, (IEnumerable<SelectListItem>)ViewBag.Materia)
+		@Html.ValidationMessageFor(model => model.Materia)
+	</div>
+</div>
+<div class="control-group">
+	@Html.LabelFor(model => model.Periodo, new { @class = "control-label" })
+	<div class="controls">
+		@Html.DropDownListFor(model => model.PeriodoId, (IEnumerable<SelectListItem>)ViewBag.Periodo)
+		@Html.ValidationMessageFor(model => model.Periodo)
+	</div>
+</div>

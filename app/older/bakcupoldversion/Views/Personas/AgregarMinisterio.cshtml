@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+
+
+}
+
+
+@using (Html.BeginForm("AgregarMinisterio", "Personas", FormMethod.Post, new { @onsubmit = "onSubmitCompleted" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset class="col-md-12">
+
+        @{ Html.RenderPartial("_CreateOrEditMinisterio");    }
+
+        <div class="row">
+            <div class="col-md-3 col-md-offset-4">
+                <input type="submit" value="Agregar y continuar" class="btn btn-success" />
+
+            </div>
+        </div>
+    </fieldset>
+            }
+
+<script>
+    function onSubmitCompleted(args) {
+        debugger;
+        //$(this).closest("[data-role=window]").kendoWindow("close");
+    }
+</script>

@@ -1,0 +1,58 @@
+﻿@model ICC.Mincloud.Modelo.Entities.ConceptosFinanzas
+
+@{
+    ViewBag.Title = "Crear concepto finanzas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i class="fa fa-plus"></i> Agregar concepto</h2>
+<hr />
+<div class="container">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="#CodigoConcepto" class="control-label col-xs-2">Codigo concepto</label>
+                <div class="col-xs-10">
+                    @Html.EditorFor(model => model.CodigoConcepto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CodigoConcepto, "", new { @class = "label label-danger col-xs-12" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="#NombreConcepto" class="control-label col-xs-2">Nombre concepto</label>
+                <div class="col-xs-10">
+                    @Html.EditorFor(model => model.NombreConcepto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NombreConcepto, "", new { @class = "label label-danger col-xs-12" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="#TipoConcepto" class="control-label col-xs-2">Tipo concepto</label>
+                <div class="col-xs-10">
+                    @Html.DropDownListFor(model => model.TipoConcepto, new SelectList(new[] { new { Value = "Ingreso", Text = "Ingreso", Selected = true }, new { Value = "Egreso", Text = "Egreso", Selected = false } }, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TipoConcepto, "", new { @class = "label label-danger col-xs-12" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IglesiaId, "Iglesia", htmlAttributes: new { @class = "control-label col-xs-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("IglesiaId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IglesiaId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="@Url.Action("Index","ConceptosFinanzas")" class="btn"><i class="fa fa-arrow-left"></i> Cancelar</a>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

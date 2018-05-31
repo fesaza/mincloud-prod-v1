@@ -1,0 +1,35 @@
+﻿@model ICC.Mincloud.Modelo.Entities.Ocupacion
+@{
+	ViewBag.Title = "Details";
+}
+
+
+<div class="page-header">
+    <h1>
+        Iglesias
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            detalles ocupación
+
+        </small>
+    </h1>
+</div>
+<div class="row">
+	<div class="span4">
+		<table class="table table-bordered table-striped table-condensed table-hover pull-left">
+			<tr>
+				<td>@Html.LabelFor(x => x.Nombre)</td>
+				<td>@Model.Nombre</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+		<div class="btn-group">
+			<a href="@Url.Action("Edit", new { OcupacionId = Model.OcupacionId })" class="btn"><i class="icon-pencil"></i> Edit</a>
+			<a href="@Url.Action("Delete", new { OcupacionId = Model.OcupacionId })" class="btn"><i class="icon-trash"></i> Delete</a>
+		</div>
+		@Html.ActionLink("Back to List", "Index", null, new { @class = "pull-right" })
+	</div>
+</div>

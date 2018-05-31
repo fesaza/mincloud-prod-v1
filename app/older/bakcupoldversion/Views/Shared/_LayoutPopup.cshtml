@@ -1,0 +1,20 @@
+﻿@{ Culture = UICulture = "es-CO";}
+
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/menu")
+@RenderSection("styles", required: false)
+
+
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+
+@Scripts.Render("~/bundles/kendo")
+@Scripts.Render("~/bundles/menu")
+
+
+
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+
+@{ Html.RenderPartial("_Alerts"); }
+@RenderBody()

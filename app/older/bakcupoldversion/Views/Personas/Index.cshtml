@@ -1,0 +1,160 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@model ICC.Mincloud.Modelo.Entities.Persona
+@{
+    ViewBag.Title = "Personas";
+}
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.js"></script>
+
+<div class="page-header">
+    <h1>
+        <i class="menu-icon fa fa-users green"></i> Personas
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de personas
+            <button class="btn btn-primary pull-right open-button" id="btnNuevo"><i class='ace-icon fa fa-user-plus'></i> Agregar </button>
+        </small>
+
+        @*@Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+
+
+    </h1>
+</div>
+
+
+<div class="">
+    <div class="col-md-12 col-xs-12">
+        <div class="panel">
+
+            <div class="small">
+
+                <div class="row">
+                    @(Html.Kendo().Grid<Persona>().Mobile()
+                              .Name("grdFiltros")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(c => c.PersonaId).ClientTemplate("<div class='btn-group'>" +
+                                                                                 "<a href='" + @Url.Action("Edit", new { PersonaId = "#: PersonaId#" }) + "' class='btn btn-success btn-xs'><i class='ace-icon fa fa-pencil'></i></a>" +
+                                                                                 "</div>" +
+                                                                                 "<div class='btn-group'>" +
+                                                                                 "<a href='" + @Url.Action("Delete", new { PersonaId = "#: PersonaId#" }) + "' class='btn btn-danger btn-xs'><i class='glyphicon glyphicon-trash'></i></a>" +
+                                                                                 "</div>").Width(100).Title("").Filterable(false).IncludeInMenu(false);
+                                  columns.Bound(c => c.NombreCompletoSimple).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Width(200);
+                                  columns.Bound(c => c.Identificacion).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Width(150);
+                                  columns.Bound(c => c.Celular).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Width(150);
+                                  columns.Bound(c => c.Telefono).Title("Teléfono").Width(150);
+                                  columns.Bound(c => c.Email).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Width(150);
+                                  columns.Bound(c => c.Perfil).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains"))).Width(130);
+                                  //columns.Bound(c => c.Convertido).ClientTemplate("<input type='checkbox' #= Convertido ? 'checked= checked' : '' # disabled='disabled' ></input>").IncludeInMenu(true).Visible(false);
+                                  columns.Bound(c => c.FechaIngreso).Title("Ingreso").Format("{0:dd/MM/yyyy}").Width(140);
+                                  columns.Bound(c => c.Direccion).Title("Dirección").Width(150);
+                                  columns.Bound(c => c.Barrio).Width(150);
+                                  columns.Bound(c => c.Edad).Width(120);
+                                  columns.Bound(c => c.EnSeguimiento).ClientTemplate("<input type='checkbox' #= EnSeguimiento ? 'checked= checked' : '' # disabled='disabled' ></input>").Width(100);
+                              })
+                              .ToolBar(tools => tools.Excel())
+                              .ColumnMenu().Groupable(g => g.Enabled(true))
+                              .Sortable()
+                              .Scrollable()
+                              .Excel(excel => excel
+                                    .FileName("PersonasMinCloud.xlsx")
+                                    .Filterable(true)
+                                    .ProxyURL(Url.Action("Excel_Export_Save", "Personas"))
+                                )
+                              .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                              .Pageable(pageable => pageable
+                                  .Refresh(true)
+                                  .PageSizes(true)
+                                  .ButtonCount(5))
+                              .DataSource(dataSource => dataSource
+                                  .Ajax()
+                                  .PageSize(20)
+                                  .ServerOperation(true)
+                                  .Read(read => read.Action("GetPersonas", "Personas")))
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="seleccionarPerfil">
+    <div id="window" style="text-align: center">
+        <h4>¿Qué tipo de persona desea agregar?</h4>
+        <div class="center-block">
+            <button class="k-button btn btn-primary nuevo-button">Nuevo</button>
+            <button class="k-button btn btn-success asistente-button">Asistente</button>
+            <button class="k-button btn btn-warning lider-button">Lider</button>
+        </div>
+    </div>
+    @*<button class="k-button open-button">Open window</button>*@
+
+    <script>
+
+        var perfil = "";
+        var wnd;
+
+        function openPopupPerfil() {
+            wnd = $("#window");
+            wnd.data("kendoWindow").title("Seleccionar perfil");
+            wnd.data("kendoWindow").center();
+            wnd.data("kendoWindow").open();
+            $(this).hide();
+        }
+
+        $(document).ready(function () {
+
+            wnd = $("#window");
+
+            $(".open-button").bind("click", function () {
+                openPopupPerfil();
+            });
+
+            $(".nuevo-button").click(function () {
+                // call 'close' method on nearest kendoWindow
+                perfil = "Nuevo";
+                $(this).closest("[data-role=window]").kendoWindow("close");
+            });
+
+            $(".lider-button").click(function () {
+                // call 'close' method on nearest kendoWindow
+                perfil = "Lider";
+                $(this).closest("[data-role=window]").kendoWindow("close");
+            });
+
+            $(".asistente-button").click(function () {
+                // call 'close' method on nearest kendoWindow
+                perfil = "Asistente";
+                $(this).closest("[data-role=window]").kendoWindow("close");
+            });
+
+
+
+            if (!wnd.data("kendoWindow")) {
+                wnd.kendoWindow({
+                    modal: true,
+                    minWidth: 400,
+                    title: "Dialog window",
+                    animation: {
+                        open: {
+                            effects: "fade:in"
+                        }
+                    },
+                    close: perfilWindowClosed,
+                    visible: false
+                });
+            }
+        });
+
+        function perfilWindowClosed() {
+
+            $(".open-button").show();
+
+            window.location = "Personas/Create?Perfil=" + perfil;
+        }
+    </script>
+</div>

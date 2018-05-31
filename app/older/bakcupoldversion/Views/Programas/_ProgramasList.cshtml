@@ -1,0 +1,43 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="">
+                <div class="row">
+                    @(Html.Kendo().Grid<Programa>().Mobile()
+                              .Name("grdFiltros")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(c => c.ProgramaId).ClientTemplate("<div class='btn-group'>" +
+                                                                                 "<a href='" + @Url.Action("Edit", new { ProgramaId = "#: ProgramaId#" }) + "' class='btn btn-success btn-xs'><i class='ace-icon fa fa-pencil'></i></a>" +
+                                                                                 "</div>" +
+                                                                                 "<div class='btn-group'>" +
+                                                                                 "<a href='" + @Url.Action("Delete", new { ProgramaId = "#: ProgramaId#" }) + "' class='btn btn-danger btn-xs'><i class='glyphicon glyphicon-trash'></i></a>" +
+                                                                                 "</div>").Width(100).Title("Acciones").Filterable(false);
+                                  columns.Bound(c => c.Nombre).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains")));
+                                  columns.Bound(c => c.ProgramaId).ClientTemplate("<div class='btn-group'>" +
+                                                                                 "<a href='" + @Url.Action("Matricular","Matriculas", new { ProgramaId = "#: ProgramaId#" }) + "' class='btn btn-success orange btn-sm'><i class='ace-icon fa fa-user-plus'></i>Matriculas</a>" +
+                                                                                 "</div>").Width(100).Title("").Filterable(false);
+                                 
+                              })
+
+                              .ColumnMenu().Groupable(g => g.Enabled(false))
+                              .Sortable()
+                              .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                              .Pageable(pageable => pageable
+                                  .Refresh(true)
+                                  .PageSizes(true)
+                                  .ButtonCount(5))
+                              .DataSource(dataSource => dataSource
+                                  .Ajax()
+                                  .PageSize(20)
+                                  .ServerOperation(true)
+                                  .Read(read => read.Action("GetProgramas", "Programas")))
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

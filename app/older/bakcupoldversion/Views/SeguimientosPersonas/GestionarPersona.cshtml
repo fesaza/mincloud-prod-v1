@@ -1,0 +1,52 @@
+﻿@using ICC.Mincloud.Modelo.Entities
+@using Kendo.Mvc.UI
+@model Persona
+
+@{
+    ViewBag.Title = "Gestionar Persona";
+}
+
+<h2>Gestionar Persona</h2>
+<div class="row">
+    <small>
+        @Html.DisplayFor(model => model)
+    </small>
+</div>
+<div class="row">
+    <p>
+        @Html.ActionLink("Agregar", "AgregarSeguimiento", "SeguimientosPersonas", new { PersonaId = Model.PersonaId }, new { @class = "btn btn-primary pull-right" })
+    </p>
+</div>
+
+<small>
+    <div class="row">
+        @(Html.Kendo().Grid<SeguimientosPersona>()
+              .Name("grdSeguimientosPersonas")
+              .Columns(columns =>
+              {
+                  columns.Bound(c => c.PersonaId).ClientTemplate("<div class='btn-group'>" +
+                                                                 "<a href='" + @Url.Action("Edit","SeguimientosPersonas", new { id = "#: SeguimientosPersonaId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-pencil'></i></a>" +
+                                                                 "</div>" +
+                                                                 "<div class='btn-group'>" +
+                                                                 "<a href='" + @Url.Action("Delete","SeguimientosPersonas", new { id = "#: SeguimientosPersonaId#" }) + "' class='btn btn-xs'><i class='glyphicon glyphicon-trash'></i></a>" +
+                                                                 "</div>").Width(100).Title("Acciones").Filterable(false);
+                  columns.Bound(c => c.Seguimiento.Nombre).Title("Seguimiento");
+                  columns.Bound(c => c.Encargado.Nombre).Title("Encargado");
+                  columns.Bound(c => c.Estado);
+                  columns.Bound(c => c.FechaSeguimiento).Title("Fecha");
+                  columns.Bound(c => c.Observaciones).Title("Observación");
+              })
+              .Scrollable()
+              .Sortable()
+              .Filterable()
+              .Pageable(pageable => pageable
+                  .Refresh(true)
+                  .PageSizes(true)
+                  .ButtonCount(5))
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .Read(read => read.Action("GetSeguimientosByPersona", "SeguimientosPersonas", new { personaId = Model.PersonaId })))
+        )
+
+    </div>
+</small>

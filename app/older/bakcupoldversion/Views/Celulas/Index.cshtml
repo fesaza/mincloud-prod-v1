@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ICC.Mincloud.Modelo.Entities.Celula>
+
+@{
+    ViewBag.Title = "Células";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h1>
+        <i class="menu-icon fa fa-heartbeat"></i> Celulas
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de celulas
+            @*<button class="btn btn-primary pull-right open-button" id="btnNuevo"><i class='ace-icon fa fa-user-plus'></i> Crear </button>*@
+            @*@Html.ActionLink("Crear", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+            <a class="btn btn-primary pull-right" href='@Url.Action("Create")'><i class="fa fa-plus"></i> Agregar</a>
+        </small>
+        @*@Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+    </h1>
+</div>
+
+<p>
+    
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.MunicipioId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Municipio.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefono)
+        </td>
+
+        <td>
+            <a class="btn btn-sm btn-success" href="/Celulas/Edit/@item.CelulaId"><i class='ace-icon fa fa-pencil'></i> Editar</a>
+            <a class="btn btn-sm btn-info" href="/Celulas/Details/@item.CelulaId"><i class='ace-icon fa fa-info'></i> Detalles</a>
+            <a class="btn btn-sm btn-danger" href="/Celulas/Delete/@item.CelulaId"><i class='ace-icon fa fa-trash'></i> Eliminar</a>
+
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ICC.Mincloud.Modelo.Entities.TiposReunione>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h1>
+        Tipos de reuniones
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de tipos de reuniones
+            @*<button class="btn btn-primary pull-right" id="btnNuevo"><i class='ace-icon fa fa-user-plus bigger-110'></i> Crear </button>*@
+            @Html.ActionLink("Crear", "Create", null, new { @class = "btn btn-primary pull-right" })
+        </small>
+
+        @*@Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary pull-right" })*@
+
+
+    </h1>
+</div>
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.TipoReunionId }, new { @class = "btn btn-success" }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.TipoReunionId },new {@class="btn btn-default"}) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.TipoReunionId }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

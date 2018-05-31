@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ICC.Mincloud.Modelo.Entities.ConceptosFinanzas>
+
+@{
+    ViewBag.Title = "Conceptos finanzas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-header">
+    <h1>
+        <i class="menu-icon fa fa-th-large"></i> Conceptos
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Lista de conceptos
+            <a class="btn btn-primary pull-right" href='@Url.Action("Create","ConceptosFinanzas")'><i class="fa fa-plus"></i> Agregar</a>
+        </small>
+
+    </h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-bordered table-hover table-responsive">
+                <tr>
+                    <th>Iglesia </th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Iglesia.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CodigoConcepto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreConcepto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoConcepto)
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-success" href='@Url.Action("Edit","ConceptosFinanzas", new { id = item.ConceptosFinanzasId })'><i class="fa fa-edit"></i> Editar</a>
+                                <a class="btn btn-info" href='@Url.Action("Details","ConceptosFinanzas", new { id = item.ConceptosFinanzasId })'><i class="fa fa-list"></i> Detalles</a>
+                                <a class="btn btn-danger" href='@Url.Action("Delete","ConceptosFinanzas", new { id = item.ConceptosFinanzasId })'><i class="fa fa-remove"></i> Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
